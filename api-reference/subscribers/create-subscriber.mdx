@@ -1,0 +1,194 @@
+---
+openapi: post /v1/subscribers
+---
+
+<Snippet file="apikey-warning.mdx" />
+
+<RequestExample>
+
+```bash cURL
+curl --location 'https://api.teleflow.khulnasoft.com/v1/subscribers' \
+  --header 'Content-Type: application/json' \
+  --header 'Accept: application/json' \
+  --header 'Authorization: ApiKey <TELEFLOW_API_KEY>' \
+  --data-raw '{
+    "firstName": "Pawan",
+    "lastName": "Jain",
+    "email": "pawan.jain@domain.com",
+    "phone": "+1234567890",
+    "avatar": "avatar-url",
+    "locale": "en-US",
+    "data": {
+      "isDeveloper": true,
+      "customKey": "customValue"
+      }
+    }'
+```
+
+```javascript Node.js
+import { Teleflow } from '@teleflow/node';
+
+const teleflow = new Teleflow("<TELEFLOW_API_KEY>");
+
+await teleflow.subscribers.identify("subscriberId", {
+  firstName: "Pawan",
+  lastName: "Jain",
+  email: "pawan.jain@domain.com",
+  phone: "+1234567890",
+  avatar: "https://gravatar.com/avatar/553b157d82ac2880237566d5a644e5fe?s=400&d=robohash&r=x",
+  locale: "en-US",
+  data: {
+    isDeveloper: true,
+    customKey: "customValue"
+  }
+});
+```
+
+```php PHP
+use Teleflow\SDK\Teleflow;
+
+$teleflow = new Teleflow('<TELEFLOW_API_KEY>');
+
+$teleflow->createSubscriber([
+    'subscriberId' => 'YOUR_SYSTEM_USER_ID>',
+    'email' => '<insert-email>', // optional
+    'firstName' => '<insert-firstname>', // optional
+    'lastName' => '<insert-lastname>', // optional
+    'phone' => '<insert-phone>', //optional
+    'avatar' => '<insert-avatar>', // optional
+])->toArray();
+```
+
+```ruby Ruby
+require 'teleflow'
+
+client = Teleflow::Client.new('<TELEFLOW_API_KEY>')
+
+payload = {
+    'subscriberId' => '7789',
+    'email' => '<insert-email>', # optional
+    'firstName' => '<insert-firstName>', # optional
+    'lastName' => '<insert-lastName>', # optional
+    'phone' => '<insert-phone>', # optional
+    'avatar' => '<insert-profile-avatar>' # optional
+}
+client.create_subscriber(payload)
+```
+
+```python Python
+from teleflow.dto.subscriber import SubscriberDto
+from teleflow.api.subscriber import SubscriberApi
+
+url = "https://api.teleflow.khulnasoft.com"
+api_key = "<TELEFLOW_API_KEY>"
+
+# Define a subscriber instance
+subscriber = SubscriberDto(
+    email="teleflow_user@mail.com",
+    subscriber_id="82a48af6ac82b3cc2157b57f", #This is what the subscriber_id looks like
+    first_name="",  # Optional
+    last_name="",  # Optional
+    phone="",  # Optional
+    avatar="",  # Optional
+)
+
+# Create a subscriber
+teleflow = SubscriberApi(url, api_key).create(subscriber)
+```
+
+```java Java
+import co.teleflow.khulnasoft.common.base.Teleflow;
+import co.teleflow.api.common.SubscriberRequest;
+import co.teleflow.api.subscribers.responses.CreateSubscriberResponse;
+
+public class Main {
+    public static void main(String[] args) {
+        String apiKey = "<TELEFLOW_API_KEY>";
+        Teleflow teleflow = new Teleflow(apiKey);
+
+        SubscriberRequest subscriberRequest = new SubscriberRequest();
+        subscriberRequest.setEmail("<EMAIL_ADDRESS>");
+        subscriberRequest.setFirstName("<FIRST_NAME>");
+        subscriberRequest.setLastName("<LAST_NAME>");
+        subscriberRequest.setPhone("<PHONE_NUMBER>");
+        subscriberRequest.setAvatar("<AVATAR>");
+        subscriberRequest.setSubscriberId("<SUBSCRIBER_ID>");
+
+        CreateSubscriberResponse response = teleflow.createSubscriber(subscriberRequest);
+    }
+}
+```
+
+```csharp .NET
+using Teleflow.DTO;
+using Teleflow.Models;
+using Teleflow;
+
+var teleflowConfiguration = new TeleflowClientConfiguration
+{
+    /** 
+    * Defaults to https://api.teleflow.khulnasoft.com/v1 
+    */
+    Url = "https://teleflow-api.my-domain.com/v1", 
+    ApiKey = "12345",
+};
+
+var teleflow = new TeleflowClient(teleflowConfiguration);
+
+var additionalData = new List<AdditionalDataDto>
+{
+  new AdditionalDataDto
+  {
+    Key = "External ID",
+    Value = "1122334455"
+  },
+  new AdditionalDataDto
+  {
+    Key = "SMS_PREFERENCE",
+    Value = "EMERGENT_ONLY"
+  }
+};
+
+var newSubscriberDto = new CreateSubscriberDto
+{
+  SubscriberId = "unique_subscriber_id",
+  FirstName = "John",
+  LastName = "Doe",
+  Avatar = "https://unslpash.com/random",
+  Email = "jdoe@teleflow.khulnasoft.com",
+  Locale = "en-US",
+  Phone = "+11112223333",
+  Data = additionalData
+};
+
+var subscriber = await teleflow.Subscriber.CreateSubscriber(newSubscriberDto)
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+    "data": {
+        "_organizationId": "abcd12349876wxyz1234wxyz",
+        "_environmentId": "zyxw4321abcd1234lmno5678",
+        "firstName": "Alex",
+        "lastName": "Benjamin",
+        "phone": "123456789",
+        "subscriberId": "abcd1234",
+        "email": "alex@email.com",
+        "avatar": "string",
+        "locale": "en-US",
+        "channels": [],
+        "_id": "6516ed5a9d727fe8256028ed",
+        "deleted": false,
+        "createdAt": "2023-09-29T15:29:30.667Z",
+        "updatedAt": "2023-09-29T15:29:30.667Z",
+        "__v": 0,
+        "id": "6516ed5a9d727fe8256028ed"
+    }
+}
+```
+
+</ResponseExample>

@@ -1,0 +1,733 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Teleflow",
+  "logo": {
+    "dark": "/logo/teleflow-logo-placeholder.svg",
+    "light": "/logo/teleflow-logo-placeholder.svg"
+  },
+  "openapi": "https://api.teleflow.khulnasoft.com/openapi.json",
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#0055ff",
+    "light": "#00d5ff",
+    "dark": "#0055ff",
+    "background": {
+      "dark": "#000000",
+      "light": "#ffffff"
+    }
+  },
+  "feedback": {
+    "thumbsRating": true,
+    "suggestEdit": true,
+    "raiseIssue": true
+  },
+  "topbarLinks": [
+    {
+      "name": "Get API Key",
+      "url": "https://web.teleflow.khulnasoft.com/settings?utm_campaign=docs-menu-apikey"
+    }
+  ],
+  "topbarCtaButton": {
+    "type": "github",
+    "url": "https://github.com/khulnasoft/teleflow"
+  },
+  "anchors": [
+    {
+      "name": "API Reference",
+      "icon": "square-terminal",
+      "url": "api-reference"
+    },
+    {
+      "name": "Discord Support",
+      "icon": "discord",
+      "url": "https://discord.gg/teleflow?ref=docs-instant-help"
+    }
+  ],
+  "tabs": [
+    {
+      "name": "API Reference",
+      "url": "api-reference"
+    },
+    {
+      "name": "SDKs",
+      "url": "sdks"
+    },
+    {
+      "name": "Guides",
+      "url": "guides"
+    },
+    {
+      "name": "Help Center",
+      "url": "help"
+    },
+    {
+      "name": "Echo",
+      "url": "echo"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Introduction",
+      "pages": [
+        "getting-started/introduction",
+        "getting-started/how-teleflow-works",
+        "getting-started/concepts",
+        "getting-started/commercial-open-source"
+      ]
+    },
+    {
+      "group": "Architecture",
+      "pages": [
+        "architecture/introduction",
+        "architecture/diagrams"
+      ]
+    },
+    {
+      "group": "Getting Started",
+      "pages": [
+        "getting-started/teleflow-sign-up",
+        "getting-started/send-your-first-notification",
+        {
+          "group": "Quickstarts",
+          "icon": "bolt",
+          "pages": [
+            "quickstarts/overview",
+            "quickstarts/general",
+            {
+              "group": "Client-Side",
+              "pages": [
+                "quickstarts/vue",
+                "quickstarts/react",
+                "quickstarts/angular",
+                "quickstarts/vanillajs",
+                "quickstarts/redwoodjs",
+                "quickstarts/iFrame",
+                "quickstarts/nextjs"
+              ]
+            },
+            {
+              "group": "Server-Side",
+              "pages": [
+                "quickstarts/nodejs",
+                "quickstarts/php",
+                "quickstarts/python",
+                "quickstarts/kotlin",
+                "quickstarts/ruby",
+                "quickstarts/.NET",
+                "quickstarts/nextjs",
+                "quickstarts/go",
+                "quickstarts/java"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Subscribers",
+      "pages": [
+        "subscribers/subscribers",
+        "subscribers/topics",
+        "subscribers/preferences"
+      ]
+    },
+    {
+      "group": "Workflows",
+      "pages": [
+        "workflows/notification-workflows",
+        "workflows/variants",
+        "workflows/step-filters",
+        "workflows/digest",
+        "workflows/delay-action",
+        "workflows/template-store",
+        "workflows/messages"
+      ]
+    },
+    {
+      "group": "Activity Feed",
+      "pages": [
+        "activity-feed/introduction",
+        "activity-feed/trigger-event-lifecycle"
+      ]
+    },
+    {
+      "group": "Tenants",
+      "pages": [
+        "tenants/introduction"
+      ]
+    },
+    {
+      "group": "Platform",
+      "pages": [
+        "platform/environments",
+        "platform/webhooks-for-providers",
+        "platform/inbound-parse-webhook"
+      ]
+    },
+    {
+      "group": "Notification Center",
+      "pages": [
+        "notification-center/introduction",
+        {
+          "group": "UI Library Components",
+          "icon": "object-group",
+          "pages": [
+            {
+              "group": "React",
+              "pages": [
+                "notification-center/client/react/get-started",
+                "notification-center/client/react/customization",
+                "notification-center/client/react/preference",
+                "notification-center/client/react/multiple-tabs",
+                "notification-center/client/react/api-reference"
+              ]
+            },
+            "notification-center/client/vue",
+            "notification-center/client/angular",
+            "notification-center/client/web-component",
+            "notification-center/client/iframe",
+            {
+              "group": "Headless",
+              "pages": [
+                "notification-center/client/headless/get-started",
+                "notification-center/client/headless/api-reference"
+              ]
+            }
+          ]
+        },
+        "notification-center/backend/methods"
+      ]
+    },
+    {
+      "group": "Content Creation & Design",
+      "pages": [
+        "content-creation-design/variables",
+        "content-creation-design/handlebars-helpers",
+        "content-creation-design/brand",
+        "content-creation-design/notification-content-creation",
+        "content-creation-design/layouts",
+        "content-creation-design/translations"
+      ]
+    },
+    {
+      "group": "Channels & Providers",
+      "pages": [
+        "channels-and-providers/introduction",
+        "channels-and-providers/integration-store",
+        "channels-and-providers/default-providers",
+        {
+          "group": "In-App",
+          "icon": "bell",
+          "pages": [
+            "channels-and-providers/in-app/introduction"
+          ]
+        },
+        {
+          "group": "Email",
+          "icon": "envelope",
+          "pages": [
+            "channels-and-providers/email/overview",
+            "channels-and-providers/email/infobip",
+            "channels-and-providers/email/amazon-ses",
+            "channels-and-providers/email/braze",
+            "channels-and-providers/email/mailersend",
+            "channels-and-providers/email/mailgun",
+            "channels-and-providers/email/mailjet",
+            "channels-and-providers/email/mailtrap",
+            "channels-and-providers/email/mandrill",
+            "channels-and-providers/email/netcore",
+            "channels-and-providers/email/outlook365",
+            "channels-and-providers/email/postmark",
+            "channels-and-providers/email/resend",
+            "channels-and-providers/email/sendgrid",
+            "channels-and-providers/email/sendinblue",
+            "channels-and-providers/email/sparkpost",
+            "channels-and-providers/email/plunk",
+            "channels-and-providers/email/custom-smtp"
+          ]
+        },
+        {
+          "group": "SMS",
+          "icon": "message-sms",
+          "pages": [
+            "channels-and-providers/sms/overview",
+            "channels-and-providers/sms/twilio",
+            "channels-and-providers/sms/sms77",
+            "channels-and-providers/sms/africas-talking",
+            "channels-and-providers/sms/azure",
+            "channels-and-providers/sms/bulk-sms",
+            "channels-and-providers/sms/messagebird",
+            "channels-and-providers/sms/simpletexting",
+            "channels-and-providers/sms/infobip",
+            "channels-and-providers/sms/sendchamp",
+            "channels-and-providers/sms/aws-sns",
+            "channels-and-providers/sms/nexmo",
+            "channels-and-providers/sms/plivo",
+            "channels-and-providers/sms/telnyx",
+            "channels-and-providers/sms/termii",
+            "channels-and-providers/sms/firetext",
+            "channels-and-providers/sms/gupshup",
+            "channels-and-providers/sms/clickatell"
+          ]
+        },
+        {
+          "group": "Push",
+          "icon": "mobile",
+          "pages": [
+            "channels-and-providers/push/overview",
+            "channels-and-providers/push/fcm",
+            "channels-and-providers/push/apns",
+            "channels-and-providers/push/expo-push",
+            "channels-and-providers/push/onesignal",
+            "channels-and-providers/push/pushpad",
+            "channels-and-providers/push/push-webhook",
+            "channels-and-providers/push/pusher-beams"
+          ]
+        },
+        {
+          "group": "Chat",
+          "icon": "comments",
+          "pages": [
+            "channels-and-providers/chat/overview",
+            "channels-and-providers/chat/discord",
+            "channels-and-providers/chat/slack",
+            "channels-and-providers/chat/ms-teams",
+            "channels-and-providers/chat/zulip",
+            "channels-and-providers/chat/whats-app"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Self-hosting Teleflow",
+      "pages": [
+        "self-hosting-teleflow/introduction",
+        "self-hosting-teleflow/deploy-with-docker",
+        "self-hosting-teleflow/object-storage",
+        "self-hosting-teleflow.khulnasoft.commerical-self-host",
+        "self-hosting-teleflow/kubernetes",
+        "self-hosting-teleflow/aws"
+      ]
+    },
+    {
+      "group": "Guides",
+      "pages": [
+        "guides/add-digest-to-inapp-notifications",
+        "guides/add-digest-to-email-notifications",
+        "guides/headless-notification-center-guide",
+        "guides/slack-guide",
+        "guides/discord-guide",
+        "guides/teleflow-fcm-web",
+        "guides/FCM-iOS-Teleflow/how-to-send-PUSH-notifications-to-iOS-devices-with-FCM-using-Teleflow",
+        "guides/fcm-flutter-teleflow/how-to-send-push-notifications-to-flutter-apps-with-fcm-using-Teleflow",
+        "guides/how-to-integrate-segment-with-teleflow",
+        "guides/teleflow-fcm-react-native-android"
+      ]
+    },
+    {
+      "group": "Recipes",
+      "pages": [
+        "guides/cookbook/introduction"
+      ]
+    },
+    {
+      "group": "Usecases",
+      "pages": [
+        "guides/usecases/introduction",
+        "guides/usecases/multiple-delivery-providers",
+        "guides/usecases/embedded-notification-center",
+        "guides/usecases/digest-multiple-events",
+        "guides/usecases/manage-notifications-in-multiple-languages",
+        "guides/usecases/send-notifications-at-any-scale",
+        "guides/usecases/debug-notifications",
+        "guides/usecases/centralized-multiple-legacy-implementations"
+      ]
+    },
+    {
+      "group": "Demos",
+      "pages": [
+        "guides/demos/introduction"
+      ]
+    },
+    {
+      "group": "Security & Compliance",
+      "pages": [
+        "security-and-compliance/security"
+      ]
+    },
+    {
+      "group": "Community",
+      "pages": [
+        "community/code-of-conduct",
+        "community/get-involved",
+        "community/changelog",
+        "community/roadmap",
+        {
+          "group": "Machine setup",
+          "pages": [
+            "community/machine-setup",
+            "community/windows-machine-setup"
+          ]
+        },
+        "community/run-in-local-machine",
+        "community/feature-flags",
+        "community/monorepo-structure",
+        "community/add-a-new-provider"
+      ]
+    },
+    {
+      "group": "SDKs & Client Libraries",
+      "pages": [
+        "sdks/introduction",
+        {
+          "group": "Client",
+          "pages": [
+            "sdks/vue",
+            "sdks/react",
+            "sdks/angular",
+            "sdks/web-component",
+            "sdks/iframe-embed",
+            "sdks/headless-javascript-service"
+          ]
+        },
+        {
+          "group": "Server",
+          "pages": [
+            "sdks/nodejs",
+            "sdks/php",
+            "sdks/laravel",
+            "sdks/python",
+            "sdks/kotlin",
+            "sdks/java",
+            "sdks/ruby",
+            "sdks/go",
+            "sdks/dotnet"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Additional Resources",
+      "pages": [
+        "additional-resources/idempotency",
+        "additional-resources/data-migrations",
+        "additional-resources/glossary",
+        "additional-resources/posts-videos-and-articles"
+      ]
+    },
+    {
+      "group": "API Reference",
+      "pages": [
+        "api-reference/overview",
+        "api-reference/rate-limiting"
+      ]
+    },
+    {
+      "group": "Events",
+      "pages": [
+        "api-reference/events/trigger-event",
+        "api-reference/events/bulk-trigger-event",
+        "api-reference/events/broadcast-event-to-all",
+        "api-reference/events/cancel-triggered-event"
+      ]
+    },
+    {
+      "group": "Subscribers",
+      "pages": [
+        "api-reference/subscribers/get-subscribers",
+        "api-reference/subscribers/create-subscriber",
+        "api-reference/subscribers/bulk-create-subscribers",
+        "api-reference/subscribers/get-subscriber",
+        "api-reference/subscribers/update-subscriber",
+        "api-reference/subscribers/delete-subscriber",
+        "api-reference/subscribers/update-subscriber-credentials",
+        "api-reference/subscribers/delete-subscriber-credentials-by-providerid",
+        "api-reference/subscribers/update-subscriber-online-status",
+        "api-reference/subscribers/get-subscriber-preferences",
+        "api-reference/subscribers/get-subscriber-global-preferences",
+        "api-reference/subscribers/update-subscriber-preference",
+        "api-reference/subscribers/update-subscriber-global-preference",
+        "api-reference/subscribers/get-in-app-notification-feed-for-a-particular-subscriber",
+        "api-reference/subscribers/get-the-unseen-in-app-notifications-count-for-subscribers-feed",
+        "api-reference/subscribers/mark-a-subscriber-feed-message-as-seen",
+        "api-reference/subscribers/marks-all-the-subscriber-messages-as-read-unread-seen-or-unseen-optionally-you-can-pass-feed-id-or-array-to-mark-messages-of-a-particular-feed",
+        "api-reference/subscribers/mark-message-action-as-seen",
+        "api-reference/subscribers/handle-providers-oauth-redirect",
+        "api-reference/subscribers/handle-chat-oauth"
+      ]
+    },
+    {
+      "group": "Topics",
+      "pages": [
+        "api-reference/topics/filter-topics",
+        "api-reference/topics/topic-creation",
+        "api-reference/topics/subscribers-addition",
+        "api-reference/topics/check-topic-subscriber",
+        "api-reference/topics/subscribers-removal",
+        "api-reference/topics/get-topic",
+        "api-reference/topics/delete-topic",
+        "api-reference/topics/rename-a-topic"
+      ]
+    },
+    {
+      "group": "Notification",
+      "pages": [
+        "api-reference/notification/get-notifications",
+        "api-reference/notification/get-notification-statistics",
+        "api-reference/notification/get-notification-graph-statistics",
+        "api-reference/notification/get-notification"
+      ]
+    },
+    {
+      "group": "Workflows",
+      "pages": [
+        "api-reference/workflows/get-workflows",
+        "api-reference/workflows/create-workflow",
+        "api-reference/workflows/get-workflow",
+        "api-reference/workflows/update-workflow",
+        "api-reference/workflows/delete-workflow",
+        "api-reference/workflows/update-workflow-status"
+      ]
+    },
+    {
+      "group": "Workflow Overrides",
+      "pages": [
+        "api-reference/workflow-overrides/create-workflow-overrides",
+        "api-reference/workflow-overrides/get-workflow-overrides",
+        "api-reference/workflow-overrides/get-workflow-override",
+        "api-reference/workflow-overrides/get-workflow-override-by-id",
+        "api-reference/workflow-overrides/update-workflow-override-by-id",
+        "api-reference/workflow-overrides/update-workflow-override",
+        "api-reference/workflow-overrides/delete-workflow-override"
+      ]
+    },
+    {
+      "group": "Workflow groups",
+      "pages": [
+        "api-reference/workflow-groups/get-workflow-groups",
+        "api-reference/workflow-groups/create-workflow-group",
+        "api-reference/workflow-groups/get-workflow-group",
+        "api-reference/workflow-groups/delete-workflow-group",
+        "api-reference/workflow-groups/update-workflow-group"
+      ]
+    },
+    {
+      "group": "Integrations",
+      "pages": [
+        "api-reference/integrations/get-integrations",
+        "api-reference/integrations/create-integration",
+        "api-reference/integrations/get-active-integrations",
+        "api-reference/integrations/get-webhook-support-status-for-provider",
+        "api-reference/integrations/update-integration",
+        "api-reference/integrations/delete-integration",
+        "api-reference/integrations/set-integration-as-primary"
+      ]
+    },
+    {
+      "group": "Layouts",
+      "pages": [
+        "api-reference/layouts/filter-layouts",
+        "api-reference/layouts/layout-creation",
+        "api-reference/layouts/get-layout",
+        "api-reference/layouts/delete-layout",
+        "api-reference/layouts/update-a-layout",
+        "api-reference/layouts/set-default-layout"
+      ]
+    },
+    {
+      "group": "Inbound Parse",
+      "pages": [
+        "api-reference/inbound-parse/validate-the-mx-record-setup-for-the-inbound-parse-functionality"
+      ]
+    },
+    {
+      "group": "Environments",
+      "pages": [
+        "api-reference/environments/get-current-environment",
+        "api-reference/environments/get-environments",
+        "api-reference/environments/get-api-keys",
+        "api-reference/environments/regenerate-api-keys"
+      ]
+    },
+    {
+      "group": "Changes",
+      "pages": [
+        "api-reference/changes/get-changes",
+        "api-reference/changes/get-changes-count",
+        "api-reference/changes/apply-changes",
+        "api-reference/changes/apply-change"
+      ]
+    },
+    {
+      "group": "Execution Details",
+      "pages": [
+        "api-reference/execution-details/get-execution-details"
+      ]
+    },
+    {
+      "group": "Feeds",
+      "pages": [
+        "api-reference/feeds/get-feeds",
+        "api-reference/feeds/create-feed",
+        "api-reference/feeds/delete-feed"
+      ]
+    },
+    {
+      "group": "Tenants",
+      "pages": [
+        "api-reference/tenants/get-tenants",
+        "api-reference/tenants/create-tenant",
+        "api-reference/tenants/get-tenant",
+        "api-reference/tenants/update-tenant",
+        "api-reference/tenants/delete-tenant"
+      ]
+    },
+    {
+      "group": "Organizations",
+      "pages": [
+        "api-reference/organizations/create-organization",
+        "api-reference/organizations/get-all-organizations",
+        "api-reference/organizations/get-all-members-of-current-organization",
+        "api-reference/organizations/get-current-organization",
+        "api-reference/organizations/rename-organization",
+        "api-reference/organizations/update-member-role-to-admin",
+        "api-reference/organizations/update-organization-branding",
+        "api-reference/organizations/delete-member-from-organization"
+      ]
+    },
+    {
+      "group": "Messages",
+      "pages": [
+        "api-reference/messages/get-messages",
+        "api-reference/messages/delete-message",
+        "api-reference/messages/delete-message-by-transactionid"
+      ]
+    },
+    {
+      "group": "Blueprints",
+      "pages": [
+        "api-reference/get-v1blueprintsgroup-by-category",
+        "api-reference/get-v1blueprints"
+      ]
+    },
+    {
+      "group": "Help",
+      "pages": [
+        "help/overview",
+        "help/account-management",
+        "help/user-management",
+        {
+          "group": "Channels",
+          "icon": "bars",
+          "pages": [
+            "help/channels/in-app",
+            "help/channels/email",
+            "help/channels/sms",
+            "help/channels/push",
+            "help/channels/chat"
+          ]
+        },
+        "help/orchestration",
+        "help/content-management",
+        "help/observability",
+        "help/others",
+        "help/faq"
+      ]
+    },
+    {
+      "group": "Getting Started",
+      "pages": [
+        "echo/quickstart",
+        "echo/concepts/studio"
+      ]
+    },
+    {
+      "group": "Concepts",
+      "pages": [
+        "echo/concepts/workflows",
+        "echo/concepts/steps",
+        "echo/concepts/inputs"
+      ]
+    },
+    {
+      "group": "SDK",
+      "pages": [
+        "echo/sdk/client",
+        {
+          "group": "Frameworks",
+          "pages": [
+            "echo/sdk/frameworks/nextjs",
+            "echo/sdk/frameworks/nuxt",
+            "echo/sdk/frameworks/express"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Deployment",
+      "pages": [
+        "echo/deployment/production",
+        "echo/deployment/cli",
+        "echo/deployment/actions"
+      ]
+    },
+    {
+      "group": "Integrations",
+      "pages": [
+        "echo/integrations/react-email"
+      ]
+    },
+    {
+      "group": "Recipes",
+      "pages": [
+        "echo/recipes/json-schema"
+      ]
+    }
+  ],
+  "backgroundImage": "/background.png",
+  "redirects": [
+    {
+      "source": "/api/client-libraries",
+      "destination": "/sdks/introduction"
+    },
+    {
+      "source": "/echo/introduction",
+      "destination": "/echo/quickstart"
+    }
+  ],
+  "footerSocials": {
+    "twitter": "https://twitter.com/khulnasoft",
+    "github": "https://github.com/khulnasoft",
+    "linkedin": "https://www.linkedin.com/company/teleflowco"
+  },
+  "api": {
+    "baseUrl": [
+      "https://api.teleflow.khulnasoft.com",
+      "https://eu.api.teleflow.khulnasoft.com"
+    ],
+    "auth": {
+      "method": "key",
+      "name": "Authorization",
+      "inputPrefix": "ApiKey"
+    }
+  },
+  "integrations": {
+    "intercom": "fqe0apnx"
+  },
+  "analytics": {
+    "plausible": {
+      "domain": "docs.teleflow.khulnasoft.com"
+    }
+  },
+  "versions": [
+    "v0.23.0",
+    "v0.22.0",
+    "v0.21.0",
+    "v0.20.0",
+    "v0.19.0",
+    "v0.18.0"
+  ],
+  "metadata": {
+    "og:image": "https://teleflow.khulnasoft.com/images/social-preview.jpg"
+  }
+}

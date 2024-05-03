@@ -1,0 +1,50 @@
+---
+title: "Kotlin SDK"
+description: "Connect a Kotlin application to Teleflow"
+icon: 'kotlin'
+---
+
+Teleflow's Kotlin SDK provides simple, yet comprehensive notification management, and delivery capabilities through multiple channels that you can implement using code that integrates seamlessly with your Kotlin application.
+
+[Explore the source code on GitHub](https://github.com/khulnasoft/teleflow-kotlin)
+
+## Installation
+
+Maven users:
+
+```xml
+<dependency>
+  <groupId>co.teleflow</groupId>
+  <artifactId>teleflow-kotlin</artifactId>
+  <version>{use-latest-version}</version>
+</dependency>
+```
+The latest version can be found [on GitHub.](https://github.com/khulnasoft/teleflow-kotlin#installation)
+
+Gradle users:
+
+```groovy
+implementation 'co.teleflow:teleflow-kotlin:{use-latest-version}' //Groovy
+
+implementation ("co.teleflow:teleflow-kotlin:{use-latest-version}") //Kotlin
+```
+
+Sync your project, and you should have the artifacts downloaded.
+
+<Tip> If you're ready to start integrating in your Kotlin app, jump straight to our [Kotlin quickstart.](/quickstarts/kotlin)</Tip>
+
+## Usage 
+
+```kotlin
+
+// without changing the backend URL
+import co.teleflow.Teleflow
+import co.teleflow.extentions.environments
+
+fun main() {
+    val teleflow = Teleflow(apiKey = "TELEFLOW_API_KEY")
+    val environment = teleflow.environments()
+    println(environment)
+}
+
+```

@@ -1,0 +1,110 @@
+---
+title: "Vue Component"
+icon: "vuejs"
+sidebarTitle: "Vue"
+---
+
+The `@teleflow/notification-center-vue` package provides a Vue component wrapper over the Notification Center Web Component that you can use to integrate the notification center into your Vue application.
+
+## Installation
+
+```bash
+npm install @teleflow/notification-center-vue
+```
+
+<Info>Teleflow supports only Vue 3.</Info>
+
+## The plugin
+
+The Notification Center Vue plugin can be used to register the `NotificationCenterComponent` as a global component. This is the recommended way to use the component.
+
+```typescript
+import { createApp } from "vue";
+import NotificationCenterPlugin from "@teleflow/notification-center-vue";
+import "@teleflow/notification-center-vue/dist/style.css";
+// your app component
+import App from "./App.vue";
+
+createApp(App).use(NotificationCenterPlugin).mount("#app");
+```
+
+## Example usage
+
+```html
+<script lang="ts">
+  export default {
+    data() {
+      return {
+        applicationIdentifier: import.meta.env.VITE_TELEFLOW_APPLICATION_IDENTIFIER,
+        subscriberId: import.meta.env.VITE_TELEFLOW_SUBSCRIBER_ID,
+      };
+    },
+    methods: {
+      sessionLoaded() {
+        console.log("Notification Center Session Loaded!");
+      },
+    },
+  };
+</script>
+
+<template>
+  <NotificationCenterComponent
+    :subscriberId="subscriberId"
+    :applicationIdentifier="applicationIdentifier"
+    :sessionLoaded="sessionLoaded"
+  />
+</template>
+```
+
+By default, the `NotificationCenterComponent` renders the default bell button that opens the notification center when clicked, but it can be customized.
+
+## Custom Bell Button
+
+You can pass the custom bell button component as the default slot to the `NotificationCenterComponent` and it will be used to open the notification center. The `NotificationCenterComponent` also accepts a scoped slot which exposes the `unseenCount` property - the number of unseen notifications counts.
+
+```tsx
+<script lang="ts">
+  export default {
+    data() {
+      return {
+        applicationIdentifier: import.meta.env.VITE_TELEFLOW_APPLICATION_IDENTIFIER,
+        subscriberId: import.meta.env.VITE_TELEFLOW_SUBSCRIBER_ID,
+      };
+    },
+    methods: {
+      sessionLoaded() {
+        console.log('Notification Center Session Loaded!');
+      },
+    },
+  };
+</script>
+
+<template>
+  <NotificationCenterComponent
+    :subscriberId="subscriberId"
+    :applicationIdentifier="applicationIdentifier"
+    :sessionLoaded="sessionLoaded"
+    v-slot="slot"
+  >
+    <button>Notifications: {{ slot.unseenCount }}</button>
+  </NotificationCenterComponent>
+</template>
+```
+
+## Example
+ 
+- [Vue Notification Center Example](https://github.com/khulnasoft/examples/tree/main/vue-notification-center-example)
+- [CodeSandBox Link 🔗](https://codesandbox.io/p/sandbox/teleflow-vue-in-app-88p8vx)
+
+
+## Props
+
+The `NotificationCenterComponent` accepts the same set of props as the [Web Component](./web-component#properties).
+
+It also accepts an extra prop
+
+
+| Prop                    | Type                                                                           | Description                                                                                                                                                                                                                                                                                                                                                                     |
+| ----------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| triggers                | string[]                                                                       | This is an Array of events that controls the underlying popper component's trigger. [Read more here](https://floating-vue.starpad.dev/api/#triggers)
+

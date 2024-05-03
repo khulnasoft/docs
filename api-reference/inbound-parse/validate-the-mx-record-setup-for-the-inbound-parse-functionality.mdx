@@ -1,0 +1,70 @@
+---
+openapi: get /v1/inbound-parse/mx/status
+---
+
+<Snippet file="apikey-warning.mdx" />
+
+<RequestExample>
+
+```javascript Node.js
+import fetch from 'node-fetch';
+
+const response = await fetch('https://api.teleflow.khulnasoft.com/v1/inbound-parse/mx/status', {
+  method: 'GET',
+  
+});
+const data = await response.json();
+```
+
+```php PHP
+use Teleflow\SDK\Teleflow;
+
+$teleflow = new Teleflow(<TELEFLOW_API_KEY>);
+
+
+// Validate MX Record for Inbound Parse
+$teleflow->validateMXRecordForInboundParse()->toArray();
+```
+
+```ruby Ruby
+require 'teleflow'
+
+client = Teleflow::Client.new('<TELEFLOW_API_KEY>')
+client.validate_mx_record_setup_for_inbound_parse()
+```
+
+```python Python
+from teleflow.api import InboundParseApi
+
+url = "https://api.teleflow.khulnasoft.com"
+api_key = "<TELEFLOW_API_KEY>"
+teleflow = InboundParseApi(url, api_key).validate_mx_record_setup(
+)
+```
+
+```java Java
+import co.teleflow.sdk.Teleflow;
+
+public class Main {
+    public static void main(String[] args) {
+        String apiKey = "<TELEFLOW_API_KEY>";
+
+        Teleflow teleflow = new Teleflow(apiKey);
+        teleflow.validateMxRecordSetupForInboundParse();
+    }
+}
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+    "data": {
+    "mxRecordConfigured": true
+  }
+}
+```
+
+</ResponseExample>

@@ -1,0 +1,127 @@
+---
+title: "Monorepo Structure"
+description: "Learn the components of Teleflow's monorepo"
+---
+
+In this guide, we will explore the Teleflow mono-repo structure and high-level structure of the different libraries and services we use.
+
+## Setting up the monorepo
+
+Teleflow uses [PNPM](https://pnpm.js.org/) as its package manager, and [NX](https://nx.dev/) as its build CLI tool. PNPM reduces the installation time and generates symlinks for all the internal packages we use.
+
+To initialize the monorepo, run the following command from the root of the project:
+
+```bash
+npm run setup:project
+```
+
+This will:
+
+- run `pnpm install`, which will download all the needed dependencies and create symlinks for packages.
+- copy the `.env.example` file to the `.env` file for the API service.
+- execute the `npm run build` command to build all the dependency trees locally.
+
+For additional information on running Teleflow locally, visit the [run locally](https://docs.teleflow.khulnasoft.com/community/run-in-local-machine) guide.
+
+## Apps
+
+The `apps` folder contains high-level applications and APIs. The app's outputs usually contain deployable units that a user can interact with either as an API or as a web/cli application.
+
+
+<Steps>
+  <Step title="API">
+    The API package is our main service for handling backend logic. It handles anything from authentication, authorization, workflow management, triggering events, etc... This is where the Teleflow business logic is handled.
+  </Step>
+  <Step title="WS aka Web Socket">
+    This is the WebSocket NestJs server which connects to the widget and provides real-time updates about new notifications to the widget consumer.
+  </Step>
+  <Step title="Web aka Admin Panel">
+    This is the Teleflow admin panel which is used to visually communicate with the API. You can configure workflows, manage content, enable or disable notifications, visually track the notification activity feed, etc...
+
+    The `WEB` project is a create-react-app built, well, with React. 😄
+  </Step>
+  <Step title="Widget">
+    This is the client of our embeddable notification center widget. It is consumed mainly with the embed script in an Iframe. We can access it on port 4500 to interact with it directly.
+  </Step>
+  <Step title="Worker">
+    This is our service for managing and handling workers.
+  </Step>
+</Steps>
+
+## Libs
+
+<Steps>
+  <Step title="@teleflow/dal">
+    The `DAL` is our Data-Access-Layer. This is our connection to the DB service and wraps MongoDB and mongoose. When another service or API needs to consume the DB, it does not do that directly but uses the DAL as an interface. Importing `mongoose` directly outside the `dal` is not allowed.
+  </Step>
+  <Step title="@teleflow/testing">
+    This is a utility library that contains testing helpers. The testing helpers can generate test sessions and other functionality for e2e and unit-tests between our services.
+  </Step>
+  <Step title="@teleflow/shared">
+    The shared library contains reusable code and typescript interfaces between client and server packages. Code in the shared library should not contain any sensitive content because it can be accessed and downloaded by the web or other clients.
+  </Step>
+  <Step title="@teleflow/embed">
+    This is the connector between our client's web app and the widget project. It’s a small shim script that generates an iframe and attaches it to a client-specified div to host the notification widget.
+
+    If you are familiar with the Google Analytics embedded snippet or intercom-like embeddings, it uses the same mechanics.
+  </Step>
+</Steps>
+
+
+## Packages (on npm)
+
+<Steps>
+  <Step title="@teleflow/node">
+    A Standalone Node.js wrapper around the Teleflow API. Exists to provide type-safe and easier access to the different API endpoints Teleflow exposes (Triggers, subscribers, etc…).
+  </Step>
+  <Step title="@teleflow/nest">
+    A Nest.js wrapper around the `@teleflow/node` package was created by the community to easily interact with the core library from a nest project. Also released on NPM as a package.
+  </Step>
+  <Step title="@teleflow/notification-center">
+    React component library that contains widget bell with the notification center. Can get override of components like ‘bell icon’, and ‘notification center’.
+  </Step>
+</Steps>
+
+## Providers
+
+These are the API wrappers created by the community to wrap communication providers in the following channels:
+
+Teleflow provides a single API to manage providers across multiple channels with a simple-to-use interface.
+
+### 💌 Email
+
+- [Sendgrid](https://github.com/khulnasoft/teleflow/tree/main/providers/sendgrid)
+- [Netcore](https://github.com/khulnasoft/teleflow/tree/main/providers/netcore)
+- [Mailgun](https://github.com/khulnasoft/teleflow/tree/main/providers/mailgun)
+- [SES](https://github.com/khulnasoft/teleflow/tree/main/providers/ses)
+- [Postmark](https://github.com/khulnasoft/teleflow/tree/main/providers/postmark)
+- [Custom SMTP](https://github.com/khulnasoft/teleflow/tree/main/providers/nodemailer)
+- [Mailjet](https://github.com/khulnasoft/teleflow/tree/main/providers/mailjet)
+- [Mandrill](https://github.com/khulnasoft/teleflow/tree/main/providers/mandrill)
+- [SendinBlue](https://github.com/khulnasoft/teleflow/tree/main/providers/sendinblue)
+
+### 📞 SMS
+
+- [Twilio](https://github.com/khulnasoft/teleflow/tree/main/providers/twilio)
+- [Plivo](https://github.com/khulnasoft/teleflow/tree/main/providers/plivo)
+- [SNS](https://github.com/khulnasoft/teleflow/tree/main/providers/sns)
+- [Nexmo - Vonage](https://github.com/khulnasoft/teleflow/tree/main/providers/nexmo)
+- [Sms77](https://github.com/khulnasoft/teleflow/tree/main/providers/sms77)
+- [Telnyx](https://github.com/khulnasoft/teleflow/tree/main/providers/telnyx)
+- [Termii](https://github.com/khulnasoft/teleflow/tree/main/providers/termii)
+- [Gupshup](https://github.com/khulnasoft/teleflow/tree/main/providers/gupshup)
+
+### 📱 Push
+
+- [FCM](https://github.com/khulnasoft/teleflow/tree/main/providers/fcm)
+- [Expo](https://github.com/khulnasoft/teleflow/tree/main/providers/expo)
+- [SNS](https://github.com/khulnasoft/teleflow/tree/main/providers/sns)
+
+### 👇 Chat
+
+- [Slack](https://github.com/khulnasoft/teleflow/tree/main/providers/slack)
+- [Discord](https://github.com/khulnasoft/teleflow/tree/main/providers/discord)
+
+### 📱 In-App
+
+- [Teleflow](https://docs.teleflow.khulnasoft.com/notification-center/getting-started)

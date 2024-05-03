@@ -1,0 +1,80 @@
+---
+title: "Angular Component"
+icon: "angular"
+sidebarTitle: "Angular"
+---
+
+The `@teleflow/notification-center-angular` package provides an Angular component wrapper over the Notification Center Web Component that you can use to integrate the notification center into your Angular application.
+
+## Installation
+
+<Tip>Teleflow supports Angular version 15 and higher.</Tip>
+
+<CodeGroup>
+```bash pnpm
+pnpm i @teleflow/notification-center-angular
+```
+```bash npm
+npm i @teleflow/notification-center-angular
+```
+```bash yarn
+yarn add @teleflow/notification-center-angular
+```
+</CodeGroup>
+
+## Example usage
+
+Module:
+
+```tsx
+import { NotificationCenterModule } from '@teleflow/notification-center-angular';
+
+@NgModule({
+  imports: [..., NotificationCenterModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
+export class TheModule {}
+```
+
+Component:
+
+```tsx
+import { Component } from "@angular/core";
+import { environment } from "../environments/environment";
+
+@Component({
+  selector: "my-component",
+  templateUrl: "./component.html",
+})
+export class AppComponent {
+  subscriberId = environment.subscriberId;
+  applicationIdentifier = environment.applicationIdentifier;
+
+  sessionLoaded = (data: unknown) => {
+    console.log("loaded", { data });
+  };
+}
+```
+
+Component HTML template:
+
+```html
+<notification-center-component
+  [subscriberId]="subscriberId"
+  [applicationIdentifier]="applicationIdentifier"
+  [sessionLoaded]="sessionLoaded"
+></notification-center-component>
+```
+
+## Props
+
+The `notification-center-component` accepts the same set of props as the [web component](/notification-center/client/web-component).
+
+<Tip>
+  You may need to add `"allowSyntheticDefaultImports": true` in tsconfig.json for the web component's React imports to work correctly.
+</Tip>
+
+## Example
+
+- [Angular Notification Center Example Repo](https://github.com/khulnasoft/examples/tree/main/teleflow-angular-notification-center)
+- [Example Source Code 🔗](https://github.com/khulnasoft/examples/tree/main/teleflow-angular-notification-center)

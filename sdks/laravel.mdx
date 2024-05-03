@@ -1,0 +1,44 @@
+---
+title: "Laravel"
+description: "Connect a Laravel application to Teleflow"
+icon: 'laravel'
+---
+
+
+Teleflow's Laravel SDK provides simple, yet comprehensive notification management, and delivery capabilities through multiple channels that you can implement using code that integrates seamlessly with your Laravel application.
+
+[Explore the source code on GitHub](https://github.com/khulnasoft/teleflow-laravel)
+
+## Installation
+
+```php
+composer require teleflow/teleflow-laravel
+```
+
+<Tip> If you're ready to start integrating in your Laravel app, jump straight to our [Laravel quickstart.]()</Tip>
+
+## Usage 
+
+```php
+use Teleflow\Laravel\Facades\Teleflow;
+
+$response = Teleflow::triggerEvent([
+    'name' => '<WORKFLOW_TRIGGER_IDENTIFIER_FROM_DASHBOARD>',
+    'payload' => ['customVariables' => 'Hello'],
+    'to' => [
+        'subscriberId' => '<SUBSCRIBER_ID_FROM_DASHBOARD>',
+        'phone' => '07983887777'
+    ]
+])->toArray();
+
+// or you can use the teleflow() helper function like so:
+teleflow()->triggerEvent([
+    'name' => '<WORKFLOW_TRIGGER_IDENTIFIER_FROM_DASHBOARD>',
+    'payload' => ['customVariables' => 'Hello'],
+    'to' => [
+        'subscriberId' => '<SUBSCRIBER_ID_FROM_DASHBOARD>',
+        'phone' => '07983887777'
+    ]
+])->toArray();
+```
+

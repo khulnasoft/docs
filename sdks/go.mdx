@@ -1,0 +1,71 @@
+---
+title: "Go SDK"
+description: "Connect a Go application to Teleflow"
+icon: 'golang'
+---
+
+
+Teleflow's Go SDK provides simple, yet comprehensive notification management, and delivery capabilities through multiple channels that you can implement using code that integrates seamlessly with your Go application.
+
+[Explore the source code on GitHub](https://github.com/khulnasoft/go-teleflow)
+
+## Installation
+
+```go
+go get github.com/khulnasoft/go-teleflow
+```
+
+<Tip> If you're ready to start integrating in your Go app, jump straight to our [Go quickstart.](/quickstarts/go)</Tip>
+
+## Usage 
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	teleflow "github.com/khulnasoft/go-teleflow/lib"
+	"log"
+)
+
+func main() {
+	subscriberID := "<REPLACE_WITH_YOUR_SUBSCRIBER>"
+	apiKey := "<REPLACE_WITH_YOUR_API_KEY>"
+	eventId := "<REPLACE_WITH_YOUR_EVENT_ID>"
+
+	ctx := context.Background()
+	to := map[string]interface{}{
+		"lastName":     "Doe",
+		"firstName":    "John",
+		"subscriberId": subscriberID,
+		"email":        "john@doemail.com",
+	}
+
+	payload := map[string]interface{}{
+		"name": "Hello World",
+		"organization": map[string]interface{}{
+			"logo": "https://happycorp.com/logo.png",
+		},
+	}
+
+	data := teleflow.ITriggerPayloadOptions{To: to, Payload: payload}
+	teleflowClient := teleflow.NewAPIClient(apiKey, &teleflow.Config{})
+
+	resp, err := teleflowClient.EventApi.Trigger(ctx, eventId, data)
+	if err != nil {
+		log.Fatal("teleflow error", err.Error())
+		return
+	}
+
+	fmt.Println(resp)
+
+	// get integrations
+	integrations, err := teleflowClient.IntegrationsApi.GetAll(ctx)
+	if err != nil {
+		log.Fatal("Get all integrations error: ", err.Error())
+	}
+	fmt.Println(integrations)
+}
+```
+

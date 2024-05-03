@@ -1,0 +1,55 @@
+---
+openapi: patch /v1/subscribers/{subscriberId}/preferences/{templateId}
+---
+
+<Snippet file="apikey-warning.mdx" />
+<RequestExample>
+```java Java
+import co.teleflow.khulnasoft.common.base.Teleflow;
+import co.teleflow.api.subscribers.requests.UpdateSubscriberPreferenceRequest;
+import co.teleflow.api.subscribers.responses.SingleSubscriberPrefResponse;
+
+public class Main {
+    public static void main(String[] args) {
+        String apiKey = "<TELEFLOW_API_KEY>";
+        Teleflow teleflow = new Teleflow(apiKey);
+        String subscriberId = "<SUBSCRIBER_ID>";
+        String templateId = "<TEMPLATE_ID>";
+
+        PreferenceChannel channel = new PreferenceChannel();
+        channel.setType("<TYPE>");
+        channel.setEnabled(true);
+
+        UpdateSubscriberPreferenceRequest request = new UpdateSubscriberPreferenceRequest();
+        request.setEnabled(false);
+        request.setChannel(channel);
+
+        SingleSubscriberPrefResponse response = teleflow.updateSubscriberPreferences(request, subscriberId, templateId);
+    }
+}
+```
+</RequestExample>
+
+<ResponseExample>
+```json Response
+{
+  "data": {
+    "preference": {
+      "channels": {
+        "chat": "boolean",
+        "email": "boolean",
+        "in_app": "boolean",
+        "push": "boolean",
+        "sms": "boolean"
+      },
+      "enabled": "boolean"
+    },
+    "template": {
+      "_id": "string",
+      "critical": "boolean",
+      "name": "string"
+    }
+  }
+}
+```
+</ResponseExample>

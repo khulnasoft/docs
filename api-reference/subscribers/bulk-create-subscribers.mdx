@@ -1,0 +1,92 @@
+---
+openapi: post /v1/subscribers/bulk
+---
+
+<Snippet file="apikey-warning.mdx" />
+
+<RequestExample>
+
+```javascript Node.js
+import { Teleflow } from '@teleflow/node';
+
+const teleflow = new Teleflow('<TELEFLOW_API_KEY>');
+
+await teleflow.subscribers.bulkCreate([
+    {
+        subscriberId: 'test-subscriber-1',
+        email: 'test-user@sd.com',
+        firstName: 'subscriber-1',
+        lastName: 'test-1',
+    },
+    {
+        subscriberId: 'test-subscriber-2',
+        email: 'test-user-2@sd.com',
+        firstName: 'subscriber-2',
+        lastName: 'test-2',
+    },
+    {
+        subscriberId: 'test-subscriber-3',
+    },
+]);
+```
+``` java Java
+import co.teleflow.khulnasoft.common.base.Teleflow;
+import co.teleflow.api.common.SubscriberRequest;
+import co.teleflow.api.subscribers.responses.CreateBulkSubscriberResponse;
+import co.teleflow.api.subscribers.requests.BulkSubscriberRequest;
+
+public class Main {
+   public static void main(String[] args) {
+
+        String apiKey = "<TELEFLOW_API_KEY>";
+        Teleflow teleflow = new Teleflow(apiKey);
+
+        SubscriberRequest subscriberRequest1 = new SubscriberRequest();
+        subscriberRequest1.setEmail("<EMAIL_ADDRESS>");
+        subscriberRequest1.setFirstName("<FIRST_NAME>");
+        subscriberRequest1.setLastName("<LAST_NAME>");
+        subscriberRequest1.setPhone("<PHONE_NUMBER>");
+        subscriberRequest1.setAvatar("<AVATAR>");
+        subscriberRequest1.setSubscriberId("<SUBSCRIBER_ID>");
+
+        SubscriberRequest subscriberRequest2 = new SubscriberRequest();
+        subscriberRequest2.setEmail("<EMAIL_ADDRESS>");
+        subscriberRequest2.setFirstName("<FIRST_NAME>");
+        subscriberRequest2.setLastName("<LAST_NAME>");
+        subscriberRequest2.setPhone("<PHONE_NUMBER>");
+        subscriberRequest2.setAvatar("<AVATAR>");
+        subscriberRequest2.setSubscriberId("<SUBSCRIBER_ID>");
+
+        BulkSubscriberRequest bulkSubscriberRequest = new BulkSubscriberRequest();
+        bulkSubscriberRequest.setSubscribers(Arrays.asList(subscriberRequest1, subscriberRequest2));
+
+        CreateBulkSubscriberResponse response = teleflow.createSubscriberBulk(bulkSubscriberRequest);
+    }
+}
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+    "data": {
+        "updated": [],
+        "created": [
+        {
+            "subscriberId": "test-subscriber-1"
+        },
+        {
+            "subscriberId": "test-subscriber-2"
+        },
+        {
+            "subscriberId": "test-subscriber-3"
+        }
+        ],
+        "failed": []
+    }
+}
+```
+
+</ResponseExample>

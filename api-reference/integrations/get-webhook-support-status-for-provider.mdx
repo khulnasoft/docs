@@ -1,0 +1,61 @@
+---
+openapi: get /v1/integrations/webhook/provider/{providerId}/status
+---
+
+<Snippet file="apikey-warning.mdx" />
+
+<RequestExample>
+```javascript Node.js
+import { Teleflow, ProvidersIdEnum } from '@teleflow/node';  
+
+const teleflow = new Teleflow('<TELEFLOW_API_KEY>');
+
+await teleflow.integrations.getWebhookProviderStatus(ProvidersIdEnum.SendGrid);
+```
+```php PHP
+// Get integrations
+use Teleflow\SDK\Teleflow;
+
+$teleflow = new Teleflow(<TELEFLOW_API_KEY>);
+$teleflow->getWebhookSupportStatusForProvider($providerId)->toArray();
+```
+```ruby Ruby
+require 'teleflow'
+
+client = Teleflow::Client.new('<TELEFLOW_API_KEY>')
+client.webhook_provider_status('<insert-provider-id>')
+```
+```python Python
+from teleflow.api import IntegrationApi
+
+url = "https://api.teleflow.khulnasoft.com"
+api_key = "<TELEFLOW_API_KEY>"
+teleflow = IntegrationApi(url, api_key).status(
+    provider_id="<The_Provider_ID>", # Get webhook support status for a given provider using its providerID.
+)
+```
+```java Java
+import co.teleflow.sdk.Teleflow;
+
+public class Main {
+    public static void main(String[] args) {
+        String apiKey = "<TELEFLOW_API_KEY>";
+
+        Teleflow teleflow = new Teleflow(apiKey);
+        teleflow.webhookProviderStatus(providerId);
+    }
+}
+```
+
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+    200: "The status of the webhook for the provider requested"
+}
+```
+
+</ResponseExample>

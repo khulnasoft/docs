@@ -1,0 +1,67 @@
+---
+openapi: put /v1/subscribers/{subscriberId}
+---
+
+<Snippet file="apikey-warning.mdx" />
+<RequestExample>
+```java Java
+import co.teleflow.khulnasoft.common.base.Teleflow;
+import co.teleflow.api.subscribers.responses.SingleSubscriberResponse;
+import co.teleflow.api.subscribers.requests.UpdateSubscriberRequest;
+
+public class Main {
+    public static void main(String[] args) {
+        String apiKey = "<TELEFLOW_API_KEY>";
+        Teleflow teleflow = new Teleflow(apiKey);
+        String subscriberId = "<SUBSCRIBER_ID>";
+
+        UpdateSubscriberRequest updateSubscriberRequest = new UpdateSubscriberRequest();
+        updateSubscriberRequest.setEmail("<EMAIL_ADDRESS>");
+        updateSubscriberRequest.setFirstName("<FIRST_NAME>");
+        updateSubscriberRequest.setLastName("<LAST_NAME>");
+        updateSubscriberRequest.setPhone("<PHONE_NUMBER>");
+
+
+        SingleSubscriberResponse response = teleflow.updateSubscriber(updateSubscriberRequest, subscriberId);
+    }
+}
+```
+</RequestExample>
+<ResponseExample>
+```json Response
+{
+  "data": {
+    "__v": "number",
+    "_environmentId": "string",
+    "_id": "string",
+    "_organizationId": "string",
+    "avatar": "string",
+    "channels": [
+      {
+        "_integrationId": "string",
+        "credentials": {
+          "channel": "string",
+          "deviceTokens": [
+            "string"
+          ],
+          "webhookUrl": "string"
+        },
+        "integrationIdentifier": "string",
+        "providerId": "slack"
+      }
+    ],
+    "createdAt": "string",
+    "deleted": "boolean",
+    "email": "string",
+    "firstName": "string",
+    "isOnline": "boolean",
+    "lastName": "string",
+    "lastOnlineAt": "string",
+    "locale": "string",
+    "phone": "string",
+    "subscriberId": "string",
+    "updatedAt": "string"
+  }
+}
+```
+</ResponseExample>

@@ -1,0 +1,39 @@
+---
+title: "NodeJS SDK"
+description: "Connect a Node.js application to Teleflow"
+icon: 'node'
+---
+
+Teleflow's Node.js SDK provides simple, yet comprehensive notification management, and delivery capabilities through multiple channels that you can implement using code that integrates seamlessly with your Node.js application.
+
+[Explore the source code on GitHub](https://github.com/khulnasoft/teleflow/tree/next/packages/node)
+
+## Installation
+
+```javascript
+npm install @teleflow/node 
+```
+
+<Tip> If you're ready to start integrating in your Node.js app, jump straight to our [Nodejs quickstart.](/quickstarts/nodejs)</Tip>
+
+## Usage 
+
+```javascript
+import { Teleflow } from '@teleflow/node';
+
+const teleflow = new Teleflow("<TELEFLOW_API_KEY>");
+
+await teleflow.trigger('<WORKFLOW_TRIGGER_IDENTIFIER>', {
+  to: {
+    subscriberId: '<USER_IDENTIFIER>',
+    email: 'test@email.com',
+    firstName: 'John',
+    lastName: 'Doe',
+  },
+  payload: {
+    organization: {
+      logo: 'https://evilcorp.com/logo.png',
+    },
+  },
+});
+```

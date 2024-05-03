@@ -1,0 +1,80 @@
+---
+title: "Push Channel Introduction"
+sidebarTitle: "Overview"
+description: "Learn how to send push notifications with Teleflow using external providers like FCM, Expo etc."
+---
+
+Push notifications are short, targeted messages delivered to a user's device or browser, often through mobile apps or websites. They serve as a powerful communication tool, offering real-time updates, reminders, and personalized content. Push notifications can range from news alerts and social media updates to promotional offers and important app notifications.
+
+These messages are designed to engage users and keep them informed about relevant events or activities, even when they are not actively using an app or browsing a website. They play a crucial role in user engagement and retention for businesses and organizations, as they can re-engage users and prompt them to take specific actions.
+
+Teleflow can be used to deliver push notifications to your customers devices using a unified delivery API. Both Mobile and Web push notifications are supported.
+
+## Using push channel with Teleflow
+
+To send a push notification to subscribers (users) using Teleflow:
+
+- Add a push channel provider in integration store
+- Add push channel as a step in existing or new workflow.
+- Add static or dynamic content using variables in push step fields
+- Store provider specific device tokens/identifiers in subscriber profile. Read provider specific documentation on how to obtain and store device tokens.
+- Make sure all provider specific steps are configured properly before triggering workflow. Read provider related documentation for all required steps.
+- Trigger the workflow.
+
+## Supported providers:-
+
+- [Firebase Cloud Messaging (FCM)](/channels-and-providers/push/fcm)
+- [Expo Push](/channels-and-providers/push/expo-push)
+- [Apple Push Notification Service](/channels-and-providers/push/apns)
+- [OneSignal](/channels-and-providers/push/onesignal)
+- [Pushpad](/channels-and-providers/push/pushpad)
+- [Push Webhook](/channels-and-providers/push/push-webhook)
+
+<Note>Teleflow supports multiple active providers for push channel.</Note>
+
+<Snippet file="missing-provider.mdx" />
+
+## Frequently Asked Questions
+
+### 1. How to remove one device token from subscriber credentials?
+
+To remove a device token from subscriber credentials, you need to get the current device tokens from subscriber credentials, remove all deviceTokens, remove the token you want to remove and then update the subscriber credentials with new device tokens.
+
+<Tabs>
+  <Tab title="Node.js">
+```ts
+import { Teleflow, PushProviderIdEnum } from '@teleflow/node';
+
+const teleflow = new Teleflow('<TELEFLOW_API_KEY>');
+
+// fetch subscriber details
+const subscriber = await teleflow.subscribers.get('subscriberId');
+
+// get current device tokens from subscriber credentials for the provider
+const currentDeviceTokens = subsciber.data.data.channels.find(
+    // _integrationId can also be checked in place of providerId ;
+    (channel) => channel.providerId === PushProviderIdEnum.FCM,
+).credentials.deviceTokens;
+
+// remove all device tokens
+await this.teleflow.subscribers.setCredentials(
+    'subscriberId',
+    PushProviderIdEnum.FCM,
+    { deviceTokens: [] },
+);
+
+// remove the token you want to remove
+const newDeviceTokens = currentDeviceTokens.filter(
+    (token) => token !== 'token-to-be-removed',
+);
+
+// update subscriber credentials with new device tokens
+await this.teleflow.subscribers.setCredentials(
+    'subscriberId',
+    PushProviderIdEnum.FCM,
+    { deviceTokens: newDeviceTokens },
+);
+```
+  </Tab>
+</Tabs>
+

@@ -1,0 +1,68 @@
+---
+openapi: get /v1/subscribers
+---
+
+<Snippet file="apikey-warning.mdx" />
+
+<RequestExample>
+``` java Java
+import co.teleflow.khulnasoft.common.base.Teleflow;
+import co.teleflow.api.subscribers.responses.BulkSubscriberResponse;
+
+public class Main {
+   public static void main(String[] args) {
+        String apiKey = "<TELEFLOW_API_KEY>";
+        Teleflow teleflow = new Teleflow(apiKey);
+
+        Integer page = 0;
+        Integer limit = 10;
+
+        BulkSubscriberResponse response = teleflow.getSubscribers(page, limit);
+    }
+}
+```
+</RequestExample>
+
+<ResponseExample>
+```json Response
+{
+  "data": [
+    {
+      "__v": "number",
+      "_environmentId": "string",
+      "_id": "string",
+      "_organizationId": "string",
+      "avatar": "string",
+      "channels": [
+        {
+          "_integrationId": "string",
+          "credentials": {
+            "channel": "string",
+            "deviceTokens": [
+              "string"
+            ],
+            "webhookUrl": "string"
+          },
+          "integrationIdentifier": "string",
+          "providerId": "slack"
+        }
+      ],
+      "createdAt": "string",
+      "deleted": "boolean",
+      "email": "string",
+      "firstName": "string",
+      "isOnline": "boolean",
+      "lastName": "string",
+      "lastOnlineAt": "string",
+      "locale": "string",
+      "phone": "string",
+      "subscriberId": "string",
+      "updatedAt": "string"
+    }
+  ],
+  "hasMore": "boolean",
+  "page": "number",
+  "pageSize": "number"
+}
+```
+</ResponseExample>

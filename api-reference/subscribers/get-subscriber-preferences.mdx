@@ -1,0 +1,48 @@
+---
+openapi: get /v1/subscribers/{subscriberId}/preferences
+---
+
+<Snippet file="apikey-warning.mdx" />
+
+<RequestExample>
+```java Java
+import co.teleflow.khulnasoft.common.base.Teleflow;
+import co.teleflow.api.subscribers.responses.SubscriberPreferenceResponse;
+
+public class Main {
+    public static void main(String[] args) {
+        String apiKey = "<TELEFLOW_API_KEY>";
+        Teleflow teleflow = new Teleflow(apiKey);
+        String subscriberId = "<SUBSCRIBER_ID>";
+
+        SubscriberPreferenceResponse response = teleflow.getSubscriberPreferences(subscriberId);
+    }
+}
+```
+</RequestExample>
+<ResponseExample>
+```json Response
+{
+  "data": [
+    {
+      "preference": {
+        "channels": {
+          "chat": "boolean",
+          "email": "boolean",
+          "in_app": "boolean",
+          "push": "boolean",
+          "sms": "boolean"
+        },
+        "enabled": "boolean"
+      },
+      "template": {
+        "_id": "string",
+        "critical": "boolean",
+        "name": "string"
+      }
+    }
+  ]
+}
+```
+</ResponseExample>
+

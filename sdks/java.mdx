@@ -1,0 +1,57 @@
+---
+title: "Java SDK"
+description: "Connect a Java application to Teleflow"
+icon: 'java'
+---
+
+Teleflow's Java SDK provides simple, yet comprehensive notification management, and delivery capabilities through multiple channels that you can implement using code that integrates seamlessly with your Java application.
+
+[Explore the source code on GitHub.](https://github.com/khulnasoft/teleflow-java)
+
+## Installation
+
+Maven users:
+
+```java
+<!--add dependency-->
+<dependency>
+    <groupId>co.teleflow</groupId>
+    <artifactId>teleflow-java</artifactId>
+    <version>{use-latest-version}</version>
+</dependency>
+```
+
+The latest version can be found [on GitHub.](https://github.com/khulnasoft/teleflow-java#installation)
+
+Gradle users:
+
+```groovy
+implementation 'co.teleflow:teleflow-java:{latest-version}'
+```
+
+Sync your project, and you should have the artifacts downloaded.
+
+<Tip> If you're ready to start integrating in your Java app, jump straight to our [Java quickstart.](/quickstarts/java)</Tip>
+
+## Usage 
+
+```java
+import co.teleflow.sdk.Teleflow;
+
+public class Main {
+    public static void main(String[] args) {
+        String apiKey = "INSERT_API_KEY_HERE";
+        // Using the API Key only
+        Teleflow teleflow = new Teleflow(apiKey);
+
+        // Using the Config Param
+        TeleflowConfig teleflowConfig = new TeleflowConfig(apiKey);
+        Teleflow teleflow = new Teleflow(teleflowConfig);
+
+        // Sample usage
+        teleflow.triggerEvent(event);
+    }
+}
+
+// Sign up on https://web.teleflow.khulnasoft.com and grab your API key from https://web.teleflow.khulnasoft.com/settings
+```
