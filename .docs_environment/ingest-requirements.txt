@@ -1,0 +1,8 @@
+pip
+requests==2.32.0
+PyGithub
+gitpython
+mergedeep
+pandas
+numpy
+retrypy
