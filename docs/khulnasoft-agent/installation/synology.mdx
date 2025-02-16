@@ -1,0 +1,61 @@
+---
+custom_edit_url: "https://github.com/khulnasoft/khulnasoft/edit/master/packaging/installer/methods/synology.md"
+sidebar_label: "Synology"
+docs_status: "Published"
+docs_rel_path: "Khulnasoft Agent/Installation"
+description: "The Khulnasoft Agent can be installed on AMD64-compatible NAS systems using the 64-bit pre-compiled static binary."
+sidebar_position: "403070"
+docs_link: "https://docs.khulnasoft.com/docs/khulnasoft-agent/installation/synology"
+---
+
+# Install Khulnasoft on Synology
+
+> 💡 This document is maintained by Khulnasoft's community, and may not be completely up-to-date. Please double-check the
+> details of the installation process, before proceeding.
+>
+> You can help improve this document by
+> [submitting a PR](/docs/khulnasoft-agent/installation/synology)
+> with your recommended improvements or changes. Thank you!
+
+The good news is that our
+[one-line installation script](/docs/khulnasoft-agent/installation/linux)
+works fine if your NAS is one that uses the amd64 architecture. It
+will install the content into `/opt/khulnasoft`, making future removal safe and simple.
+
+## Run as khulnasoft user
+
+When Khulnasoft is first installed, it will run as _root_. This may or may not be acceptable for you, and since other
+installations run it as the `khulnasoft` user, you might wish to do the same. This requires some extra work:
+
+1. Create a group `khulnasoft` via the Synology group interface. Give it no access to anything.
+2. Create a user `khulnasoft` via the Synology user interface. Give it no access to anything and a random password. Assign
+    the user to the `khulnasoft` group. Khulnasoft will chuid to this user when running.
+3. Change ownership of the following directories:
+
+    ```sh
+    chown -R root:khulnasoft /opt/khulnasoft/usr/share/khulnasoft
+    chown -R khulnasoft:khulnasoft /opt/khulnasoft/var/lib/khulnasoft /opt/khulnasoft/var/cache/khulnasoft
+    chown -R khulnasoft:root /opt/khulnasoft/var/log/khulnasoft
+    ```
+
+4. Restart Khulnasoft
+
+    ```sh
+    /etc/rc.khulnasoft restart
+    ```
+
+## Create startup script
+
+Additionally, as of 2018/06/24, the Khulnasoft installer doesn't recognize DSM as an operating system, so no init script is
+installed. You'll have to do this manually:
+
+1. Add [this file](https://gist.github.com/oskapt/055d474d7bfef32c49469c1b53e8225f) as `/etc/rc.khulnasoft`. Make it
+    executable with `chmod 0755 /etc/rc.khulnasoft`.
+2. Add or edit `/etc/rc.local` and add a line calling `/etc/rc.khulnasoft` to have it start on boot:
+
+    ```text
+    # Khulnasoft startup
+    [ -x /etc/rc.khulnasoft ] && /etc/rc.khulnasoft start
+    ```
+
+3. Make sure `/etc/rc.local` is executable: `chmod 0755 /etc/rc.local`.

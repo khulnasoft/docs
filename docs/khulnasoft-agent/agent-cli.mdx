@@ -1,0 +1,34 @@
+---
+custom_edit_url: "https://github.com/khulnasoft/khulnasoft/edit/master/src/cli/README.md"
+sidebar_label: "Agent CLI"
+docs_status: "Published"
+docs_rel_path: "Khulnasoft Agent"
+description: "The Khulnasoft Agent includes a command-line experience for reloading health configuration, reopening log files, halting the daemon, and more."
+sidebar_position: "410030"
+docs_link: "https://docs.khulnasoft.com/docs/khulnasoft-agent/agent-cli"
+---
+
+# Khulnasoft Agent CLI
+
+The `khulnasoftcli` executable offers a straightforward way to manage the Khulnasoft Agent's operations.
+
+It is located in the same directory as the `khulnasoft` binary.
+
+Available commands:
+
+| Command                                                                | Description                                                                                                                                                                      |
+|------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `help`                                                                 | Display usage information and exit.                                                                                                                                              |
+| `reload-health`                                                        | Reloads the Khulnasoft health configuration, updating alerts based on changes made to configuration files.                                                                          |
+| `reload-labels`                                                        | Reloads [host labels](/docs/khulnasoft-agent/configuration/organize-systems-metrics-and-alerts#custom-labels) from khulnasoft.conf.                                                 |
+| `reopen-logs`                                                          | Close and reopen log files.                                                                                                                                                      |
+| `shutdown-agent`                                                       | Gracefully shut down the Khulnasoft Agent.                                                                                                                                          |
+| `fatal-agent`                                                          | Log the current state and forcefully halt the Khulnasoft Agent.                                                                                                                     |
+| `reload-claiming-state`                                                | Reload the Agent's claiming state from disk.                                                                                                                                     |
+| `ping`                                                                 | Checks the Agent's status. If the Agent is alive, it exits with status code 0 and prints 'pong' to standard output. Exits with status code 255 otherwise.                        |
+| `aclk-state [json]`                                                    | Return the current state of ACLK and Cloud connection. Optionally in JSON.                                                                                                       |
+| `dumpconfig`                                                           | Display the current khulnasoft.conf configuration.                                                                                                                                  |
+| `remove-stale-node <node_id \| machine_guid \| hostname \| ALL_NODES>` | Un-registers a stale child Node, removing it from the parent Node's UI and Khulnasoft Cloud. This is useful for ephemeral Nodes that may stop streaming and remain visible as stale. |
+| `version`                                                              | Display the Khulnasoft Agent version.                                                                                                                                               |
+
+See also the Khulnasoft daemon [command line options](/docs/khulnasoft-agent/daemon#command-line-options).

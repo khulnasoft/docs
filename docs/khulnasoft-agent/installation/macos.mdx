@@ -1,0 +1,120 @@
+---
+custom_edit_url: "https://github.com/khulnasoft/khulnasoft/edit/master/packaging/installer/methods/macos.md"
+sidebar_label: "macOS"
+docs_status: "Published"
+docs_rel_path: "Khulnasoft Agent/Installation"
+sidebar_position: "403040"
+docs_link: "https://docs.khulnasoft.com/docs/khulnasoft-agent/installation/macos"
+---
+
+# Install Khulnasoft on macOS
+
+Khulnasoft works on macOS, albeit with some limitations.
+The number of charts displaying system metrics is limited, but you can use any of Khulnasoft's [external plugins](/docs/developer-and-contributor-corner/external-plugins) to monitor any services you might have installed on your macOS system.
+You could also use a macOS system as the parent node in a [streaming configuration](/docs/observability-centralization-points/streaming-and-replication-reference).
+
+You can install Khulnasoft in one of the three following ways:
+
+- **[Install Khulnasoft with the our automatic one-line installation script (recommended)](#install-khulnasoft-with-our-automatic-one-line-installation-script)**,
+- [Install Khulnasoft via Homebrew](#install-khulnasoft-via-homebrew)
+- [Install Khulnasoft from source](#install-khulnasoft-from-source)
+
+Each of these installation option requires [Homebrew](https://brew.sh/) for handling dependencies.
+
+> The Khulnasoft Homebrew package is community-created and -maintained.
+> Community-maintained packages _may_ receive support from Khulnasoft, but are only a best-effort affair. Docs more about [Khulnasoft's platform support policy](/docs/khulnasoft-agent/versions-&-platforms).
+
+## Install Khulnasoft with our automatic one-line installation script
+
+### Local Khulnasoft Agent installation
+
+To install Khulnasoft using our automatic [kickstart](/docs/khulnasoft-agent/installation/linux) open a new terminal and run:
+
+```bash
+curl https://get.khulnasoft.com/kickstart.sh > /tmp/khulnasoft-kickstart.sh && sh /tmp/khulnasoft-kickstart.sh
+```
+
+The Khulnasoft Agent is installed under `/usr/local/khulnasoft`. Dependencies are handled via Homebrew.
+
+### Automatically connect to Khulnasoft Cloud during installation
+
+The `kickstart.sh` script accepts additional parameters to automatically [connect](/docs/khulnasoft-cloud/connect-agent-to-cloud) your node to Khulnasoft
+Cloud immediately after installation. Find the `token` and `rooms` strings by [signing in to Khulnasoft
+Cloud](https://app.khulnasoft.com/sign-in?cloudRoute=/spaces), then clicking on **Connect Nodes** on any of the prompts from the UI.
+
+- `--claim-token`: Specify a unique claiming token associated with your Space in Khulnasoft Cloud to be used to connect to the node
+  after the install.
+- `--claim-rooms`: Specify a comma-separated list of tokens for each Room this node should appear in.
+- `--claim-proxy`: Specify a proxy to use when connecting to the Cloud in the form of `http://[user:pass@]host:ip` for an HTTP(S) proxy.
+  See [connecting through a proxy](/docs/khulnasoft-cloud/connect-agent-to-cloud#automatically-via-a-provisioning-system-or-the-command-line) for details.
+- `--claim-url`: Specify a URL to use when connecting to the Cloud. Defaults to `https://app.khulnasoft.com`.
+
+For example:
+
+```bash
+curl https://get.khulnasoft.com/kickstart.sh > /tmp/khulnasoft-kickstart.sh && sh /tmp/khulnasoft-kickstart.sh --install-prefix /usr/local/ --claim-token TOKEN --claim-rooms ROOM1,ROOM2 --claim-url https://app.khulnasoft.com
+```
+
+The Khulnasoft Agent is installed under `/usr/local/khulnasoft` on your machine. Your machine will also show up as a node in your Khulnasoft Cloud.
+
+If you experience issues while connecting your node, follow the steps in our [Troubleshoot](/docs/khulnasoft-cloud/connect-agent-to-cloud#troubleshoot) documentation.
+
+## Install Khulnasoft via Homebrew
+
+### For macOS Intel
+
+To install Khulnasoft and all its dependencies, run Homebrew using the following command:
+
+```sh
+brew install khulnasoft
+```
+
+Homebrew will place your Khulnasoft configuration directory at `/usr/local/etc/khulnasoft/`.
+
+Use the `edit-config` script and the files in this directory to configure Khulnasoft. For reference, you can find stock configuration files at `/usr/local/Cellar/khulnasoft/{KHULNASOFT_VERSION}/lib/khulnasoft/conf.d/`.
+
+### For Apple Silicon
+
+To install Khulnasoft and all its dependencies, run Homebrew using the following command:
+
+```sh
+brew install khulnasoft
+```
+
+Homebrew will place your Khulnasoft configuration directory at `/opt/homebrew/etc/khulnasoft/`.
+
+Use the `edit-config` script and the files in this directory to configure Khulnasoft. For reference, you can find stock configuration files at `/opt/homebrew/Cellar/khulnasoft/{KHULNASOFT_VERSION}/lib/khulnasoft/conf.d/`.
+
+## Install Khulnasoft from source
+
+We don't recommend installing Khulnasoft from source on macOS, as it can be difficult to configure and install dependencies manually.
+
+1. Open your terminal of choice and install the Xcode development packages:
+
+   ```bash
+   xcode-select --install
+   ```
+
+2. Click **Install** on the Software Update popup window that appears.
+3. Use the same terminal session to install some of Khulnasoft's prerequisites using Homebrew. If you don't want to use [Khulnasoft Cloud](/docs/khulnasoft-cloud), you can omit `cmake`.
+
+   ```bash
+   brew install ossp-uuid autoconf automake pkg-config libuv lz4 json-c openssl libtool cmake
+   ```
+
+4. Download Khulnasoft from our GitHub repository:
+
+   ```bash
+   git clone https://github.com/khulnasoft/khulnasoft.git --recursive
+   ```
+
+5. `cd` into the newly-created directory and then start the installer script:
+
+   ```bash
+   cd khulnasoft/
+   sudo ./khulnasoft-installer.sh --install-prefix /usr/local
+   ```
+
+> Your Khulnasoft configuration directory will be at `/usr/local/khulnasoft/`.
+> Your stock configuration directory will be at `/usr/local/lib/khulnasoft/conf.d/`.
+> The installer will also install a startup plist to start Khulnasoft when your macOS system boots.

@@ -1,0 +1,34 @@
+---
+custom_edit_url: "https://github.com/khulnasoft/khulnasoft/edit/master/docs/deployment-guides/README.md"
+sidebar_label: "Deployment Guides"
+docs_status: "Published"
+docs_rel_path: "Deployment Guides"
+sidebar_position: "200000"
+docs_link: "https://docs.khulnasoft.com/docs/deployment-guides"
+---
+
+# Deployment Guides
+
+Khulnasoft can be used to monitor all kinds of infrastructure, from tiny stand-alone IoT devices to complex hybrid setups combining on-premise and cloud infrastructure, mixing bare-metal servers, virtual machines and containers.
+
+There are 3 components to structure your Khulnasoft ecosystem:
+
+1. **Khulnasoft Agents**
+
+   To monitor the physical or virtual nodes of your infrastructure, including all applications and containers running on them.
+
+   Khulnasoft Agents are Open-Source, licensed under GPL v3+.
+
+2. **Khulnasoft Parents**
+
+   To create [observability centralization points](/docs/observability-centralization-points) within your infrastructure, to offload Khulnasoft Agents functions from your production systems, to provide high-availability of your data, increased data retention and isolation of your nodes.
+
+   Khulnasoft Parents are implemented using the Khulnasoft Agent software. Any Khulnasoft Agent can be an Agent for a node and a Parent  for other Agents, at the same time.
+
+   It is recommended to set up multiple Khulnasoft Parents. They will all seamlessly be integrated by Khulnasoft Cloud into one monitoring solution.
+
+3. **Khulnasoft Cloud**
+
+   Our SaaS, combining all your infrastructure, all your Khulnasoft Agents and Parents, into one uniform, distributed, scalable, monitoring database, offering advanced data slicing and dicing capabilities, custom dashboards, advanced troubleshooting tools, user management, centralized management of alerts, and more.
+
+The Khulnasoft Agent is a highly modular software piece, providing data collection via numerous plugins, an in-house crafted time-series database, a query engine, health monitoring and alerts, machine docsing and anomaly detection, metrics exporting to third party systems.

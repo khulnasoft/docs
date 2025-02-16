@@ -1,0 +1,91 @@
+# section: static << START
+
+[build]
+  environment = { NPM_VERSION = "7.10.0", NODE_VERSION = "16.14.2", NETLIFY_USE_YARN = "true" }
+
+
+[[redirects]]
+  from="/docs/nightly/operations/alerts/add-opsgenie-notification-configuration"
+  to="/docs/alerts-and-notifications/notifications/cloud-alert-notifications/add-opsgenie-notification-configuration"
+
+[[redirects]]
+  from="/docs/agent/changelog"
+  to="https://github.com/khulnasoft/khulnasoft/blob/master/CHANGELOG.md"
+
+[[redirects]]
+  from="/docs/nightly/concepts/khulnasoft-functions"
+  to="/docs/troubleshooting-and-machine-docsing/functions"
+
+[[redirects]]
+  from="/docs/nightly/concepts/khulnasoft-plans"
+  to="/docs/getting-started/monitor-your-infrastructure/khulnasoft-plans"
+
+[[redirects]]
+  from="/docs/nightly/concepts/role-based-access-model"
+  to="/docs/deployment-in-production/secure-your-nodes/role-based-access-model"
+
+[[redirects]]
+  from="/docs/nightly/operations/alerts/add-discord-notification-configuration"
+  to="/docs/alerts-and-notifications/notifications/cloud-alert-notifications/add-discord-notification-configuration"
+
+[[redirects]]
+  from="/docs/nightly/operations/alerts/add-webhook-notification-configuration"
+  to="/docs/alerts-and-notifications/notifications/cloud-alert-notifications/add-webhook-notification-configuration"
+
+[[redirects]]
+  from="/docs/nightly/operations/alerts/add-pagerduty-notification-configuration"
+  to="/docs/alerts-and-notifications/notifications/cloud-alert-notifications/add-pagerduty-notification-configuration"
+
+[[redirects]]
+  from="/docs/nightly/operations/alerts/add-slack-notification-configuration"
+  to="/docs/alerts-and-notifications/notifications/cloud-alert-notifications/add-slack-notification-configuration"
+
+[[redirects]]
+  from="/docs/nightly/operations/run-time-troubleshooting-with-functions"
+  to="/docs/troubleshooting-and-machine-docsing/run-time-troubleshooting-with-functions"
+
+[[redirects]]
+  from="/docs/nightly/troubleshooting-and-machine-docsing/events-feed"
+  to="/docs/troubleshooting-and-machine-docsing/events-feed"
+
+[[redirects]]
+  from="/docs/nightly/troubleshooting-and-machine-docsing/functions"
+  to="/docs/troubleshooting-and-machine-docsing/functions"
+
+[[redirects]]
+  from="/docs/nightly/getting-started/monitor-your-infrastructure/khulnasoft-plans"
+  to="/docs/getting-started/monitor-your-infrastructure/khulnasoft-plans"
+
+[[redirects]]
+  from="/docs/nightly/deployment-in-production/security/role-based-access-model"
+  to="/docs/deployment-in-production/security/role-based-access-model"
+
+[[redirects]]
+  from="/docs/nightly/alerts-and-notifications/notifications/cloud-alert-notifications/add-discord-notification-configuration"
+  to="/docs/alerts-and-notifications/notifications/cloud-alert-notifications/add-discord-notification-configuration"
+
+[[redirects]]
+  from="/docs/nightly/alerts-and-notifications/notifications/cloud-alert-notifications/add-webhook-notification-configuration"
+  to="/docs/alerts-and-notifications/notifications/cloud-alert-notifications/add-webhook-notification-configuration"
+
+[[redirects]]
+  from="/docs/nightly/alerts-and-notifications/notifications/cloud-alert-notifications/add-pagerduty-notification-configuration"
+  to="/docs/alerts-and-notifications/notifications/cloud-alert-notifications/add-pagerduty-notification-configuration"
+
+[[redirects]]
+  from="/docs/nightly/alerts-and-notifications/notifications/cloud-alert-notifications/add-slack-notification-configuration"
+  to="/docs/alerts-and-notifications/notifications/cloud-alert-notifications/add-slack-notification-configuration"
+
+[[redirects]]
+  from="/docs/nightly/troubleshooting-and-machine-docsing/run-time-troubleshooting-with-functions"
+  to="/docs/troubleshooting-and-machine-docsing/run-time-troubleshooting-with-functions"
+
+[[redirects]]
+  from="/guides"
+  to="/docs"
+
+[[redirects]]
+  from="/docs/collecting-metrics/windows-systems/windows"
+  to="/docs/khulnasoft-agent/installation/windows"
+
+# section: static << END

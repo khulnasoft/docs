@@ -1,0 +1,21 @@
+---
+custom_edit_url: "https://github.com/khulnasoft/khulnasoft/edit/master/src/libkhulnasoft/storage_number/README.md"
+sidebar_label: "Storage number"
+docs_status: "Published"
+docs_rel_path: "Developer and Contributor Corner/libkhulnasoft"
+sidebar_position: "1612170"
+docs_link: "https://docs.khulnasoft.com/docs/developer-and-contributor-corner/libkhulnasoft/storage-number"
+---
+
+# Khulnasoft storage number
+
+Although `khulnasoft` does all its calculations using `long double`, it stores all values using
+a **custom-made 32-bit number**.
+
+This custom-made number can store in 29 bits values from `-167772150000000.0` to  `167772150000000.0`
+with a precision of 0.00001 (yes, it's a floating point number, meaning that higher integer values
+have less decimal precision) and 3 bits for flags.
+
+This provides an extremely optimized memory footprint with just 0.0001% max accuracy loss.
+
+

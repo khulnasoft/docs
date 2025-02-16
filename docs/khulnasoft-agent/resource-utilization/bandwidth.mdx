@@ -1,0 +1,56 @@
+---
+custom_edit_url: "https://github.com/khulnasoft/khulnasoft/edit/master/docs/khulnasoft-agent/sizing-khulnasoft-agents/bandwidth-requirements.md"
+sidebar_label: "Bandwidth"
+docs_status: "Published"
+docs_rel_path: "Khulnasoft Agent/Resource Utilization"
+sidebar_position: "406030"
+docs_link: "https://docs.khulnasoft.com/docs/khulnasoft-agent/resource-utilization/bandwidth"
+---
+
+# Bandwidth Requirements
+
+## Production Systems: Standalone Khulnasoft
+
+Standalone Khulnasoft may use network bandwidth under the following conditions:
+
+1. You configured data collection jobs that are fetching data from remote systems. There are no such jobs enabled by default.
+2. You use the dashboard of the Khulnasoft.
+3. [Khulnasoft Cloud communication](#khulnasoft-cloud-communication) (see below).
+
+## Metrics Centralization Points: Between Khulnasoft Children & Parents
+
+Khulnasoft supports multiple compression algorithms for streaming communication. Khulnasoft Children offer all their compression algorithms when connecting to a Khulnasoft Parent, and the Khulnasoft Parent decides which one to use based on algorithm availability and user configuration.
+
+| Algorithm |                                                              Best for                                                               |
+|:---------:|:-----------------------------------------------------------------------------------------------------------------------------------:|
+|  `zstd`   |                      The best balance between CPU utilization and compression efficiency. This is the default.                      |
+|   `lz4`   |                   The fastest of the algorithms. Use this when CPU utilization is more important than bandwidth.                    |
+|  `gzip`   | The best compression efficiency, at the expense of CPU utilization. Use this when bandwidth is more important than CPU utilization. |
+| `brotli`  |                                  The most CPU intensive algorithm, providing the best compression.                                  |
+
+The expected bandwidth consumption using `zstd` for 1 million samples per second is 84 Mbps, or 10.5 MiB/s.
+
+The order compression algorithms is selected is configured in `stream.conf`, per `[API KEY]`, like this:
+
+```text
+    compression algorithms order = zstd lz4 brotli gzip
+```
+
+The first available algorithm on both the Khulnasoft Child and the Khulnasoft Parent, from left to right, is chosen.
+
+Compression can also be disabled in `stream.conf` at either Khulnasoft Children or Khulnasoft Parents.
+
+## Khulnasoft Cloud Communication
+
+When Khulnasoft Agents connect to Khulnasoft Cloud, they communicate metadata of the metrics being collected, but they do not stream the samples collected for each metric.
+
+The information transferred to Khulnasoft Cloud is:
+
+1. Information and **metadata about the system itself**, like its hostname, architecture, virtualization technologies used and generally labels associated with the system.
+2. Information about the **running data collection plugins, modules and jobs**.
+3. Information about the **metrics available and their retention**.
+4. Information about the **configured alerts and their transitions**.
+
+This is not a constant stream of information. Khulnasoft Agents update Khulnasoft Cloud only about status changes on all the above (e.g., an alert being triggered, or a metric stopped being collected). So, there is an initial handshake and exchange of information when Khulnasoft starts, and then there only updates when required.
+
+Of course, when you view Khulnasoft Cloud dashboards that need to query the database a Khulnasoft Agent maintains, this query is forwarded to an Agent that can satisfy it. This means that Khulnasoft Cloud receives metric samples only when a user is accessing a dashboard and the samples transferred are usually aggregations to allow rendering the dashboards.  

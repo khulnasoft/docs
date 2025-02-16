@@ -1,0 +1,36 @@
+---
+custom_edit_url: "https://github.com/khulnasoft/khulnasoft/edit/master/docs/khulnasoft-agent/configuration/running-the-khulnasoft-agent-behind-a-reverse-proxy/Running-behind-caddy.md"
+sidebar_label: "Caddy"
+docs_status: "Published"
+docs_rel_path: "Khulnasoft Agent/Configuration/Securing Agents/Running the Agent behind a reverse proxy"
+sidebar_position: "408570"
+docs_link: "https://docs.khulnasoft.com/docs/khulnasoft-agent/configuration/securing-agents/running-the-agent-behind-a-reverse-proxy/caddy"
+---
+
+# Running Khulnasoft behind Caddy
+
+To run Khulnasoft via [Caddy v2 reverse proxy,](https://caddyserver.com/docs/caddyfile/directives/reverse_proxy) set your Caddyfile up like this:
+
+```caddyfile
+khulnasoft.domain.tld {
+    reverse_proxy localhost:19999
+}
+```
+
+Other directives can be added between the curly brackets as needed.
+
+To run Khulnasoft in a subfolder:
+
+```caddyfile
+khulnasoft.domain.tld {
+    handle_path /khulnasoft/* {
+        reverse_proxy localhost:19999
+    }
+}
+```
+
+## limit direct access to Khulnasoft
+
+You would also need to instruct Khulnasoft to listen only to `127.0.0.1` or `::1`.
+
+To limit access to Khulnasoft only from localhost, set `bind socket to IP = 127.0.0.1` or `bind socket to IP = ::1` in `/etc/khulnasoft/khulnasoft.conf`.

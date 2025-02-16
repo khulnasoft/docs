@@ -1,0 +1,365 @@
+---
+custom_edit_url: "https://github.com/khulnasoft/khulnasoft/edit/master/docs/khulnasoft-agent/configuration/running-the-khulnasoft-agent-behind-a-reverse-proxy/Running-behind-apache.md"
+sidebar_label: "Apache"
+docs_status: "Published"
+docs_rel_path: "Khulnasoft Agent/Configuration/Securing Agents/Running the Agent behind a reverse proxy"
+sidebar_position: "408550"
+docs_link: "https://docs.khulnasoft.com/docs/khulnasoft-agent/configuration/securing-agents/running-the-agent-behind-a-reverse-proxy/apache"
+---
+
+# Running Khulnasoft behind Apache's mod_proxy
+
+Below, you can find instructions for configuring an apache server to:
+
+1. Proxy a single Khulnasoft via an HTTP and HTTPS virtual host.
+2. Dynamically proxy any number of Khulnasoft servers.
+3. Add user authentication.
+4. Adjust Khulnasoft settings to get optimal results.
+
+## Requirements
+
+Make sure your apache has `mod_proxy` and `mod_proxy_http` installed and enabled.
+
+On Debian/Ubuntu systems, install apache, which already includes the two modules, using:
+
+```sh
+sudo apt-get install apache2
+```
+
+Enable them:
+
+```sh
+sudo a2enmod proxy
+sudo a2enmod proxy_http
+```
+
+Also, enable the rewrite module:
+
+```sh
+sudo a2enmod rewrite
+```
+
+## Khulnasoft on an existing virtual host
+
+On any **existing** and already **working** apache virtual host, you can redirect requests for URL `/khulnasoft/` to one or more Khulnasoft servers.
+
+### Proxy one Khulnasoft, running on the same server apache runs
+
+Add the following on top of any existing virtual host. It will allow you to access Khulnasoft as `http://virtual.host/khulnasoft/`.
+
+```text
+<VirtualHost *:80>
+
+    RewriteEngine On
+    ProxyRequests Off
+    ProxyPreserveHost On
+
+    <Proxy *>
+        Require all granted
+    </Proxy>
+
+    # Local Khulnasoft server accessed with '/khulnasoft/', at localhost:19999
+    ProxyPass "/khulnasoft/" "http://localhost:19999/" connectiontimeout=5 timeout=30 keepalive=on
+    ProxyPassReverse "/khulnasoft/" "http://localhost:19999/"
+
+    # if the user did not give the trailing /, add it
+    # for HTTP (if the virtualhost is HTTP, use this)
+    RewriteRule ^/khulnasoft$ http://%{HTTP_HOST}/khulnasoft/ [L,R=301]
+    # for HTTPS (if the virtualhost is HTTPS, use this)
+    #RewriteRule ^/khulnasoft$ https://%{HTTP_HOST}/khulnasoft/ [L,R=301]
+
+    # rest of virtual host config here
+
+</VirtualHost>
+```
+
+### Proxy multiple Khulnasoft running on multiple servers
+
+Add the following on top of any existing virtual host. It will allow you to access multiple Khulnasoft as `http://virtual.host/khulnasoft/HOSTNAME/`, where `HOSTNAME` is the hostname of any other Khulnasoft server you have (to access the `localhost` Khulnasoft, use `http://virtual.host/khulnasoft/localhost/`).
+
+```text
+<VirtualHost *:80>
+
+    RewriteEngine On
+    ProxyRequests Off
+    ProxyPreserveHost On
+
+    <Proxy *>
+        Require all granted
+    </Proxy>
+
+    # proxy any host, on port 19999
+    ProxyPassMatch "^/khulnasoft/([A-Za-z0-9\._-]+)/(.*)" "http://$1:19999/$2" connectiontimeout=5 timeout=30 keepalive=on
+
+    # make sure the user did not forget to add a trailing /
+    # for HTTP (if the virtualhost is HTTP, use this)
+    RewriteRule "^/khulnasoft/([A-Za-z0-9\._-]+)$" http://%{HTTP_HOST}/khulnasoft/$1/ [L,R=301]
+    # for HTTPS (if the virtualhost is HTTPS, use this)
+    RewriteRule "^/khulnasoft/([A-Za-z0-9\._-]+)$" https://%{HTTP_HOST}/khulnasoft/$1/ [L,R=301]
+
+     # rest of virtual host config here
+
+</VirtualHost>
+```
+
+> IMPORTANT<br/>
+> The above config allows your apache users to connect to port 19999 on any server on your network.
+
+If you want to control the servers your users can connect to, replace the `ProxyPassMatch` line with the following. This allows only `server1`, `server2`, `server3` and `server4`.
+
+```text
+    ProxyPassMatch "^/khulnasoft/(server1|server2|server3|server4)/(.*)" "http://$1:19999/$2" connectiontimeout=5 timeout=30 keepalive=on
+```
+
+## Khulnasoft on a dedicated virtual host
+
+You can proxy Khulnasoft through apache, using a dedicated apache virtual host.
+
+Create a new apache site:
+
+```sh
+nano /etc/apache2/sites-available/khulnasoft.conf
+```
+
+with this content:
+
+```text
+<VirtualHost *:80>
+
+    ProxyRequests Off
+    ProxyPreserveHost On
+
+    ServerName khulnasoft.domain.tld
+
+     <Proxy *>
+        Require all granted
+    </Proxy>
+
+    ProxyPass "/" "http://localhost:19999/" connectiontimeout=5 timeout=30 keepalive=on
+    ProxyPassReverse "/" "http://localhost:19999/"
+
+    ErrorLog ${APACHE_LOG_DIR}/khulnasoft-error.log
+    CustomLog ${APACHE_LOG_DIR}/khulnasoft-access.log combined
+
+</VirtualHost>
+```
+
+Enable the VirtualHost:
+
+```sh
+sudo a2ensite khulnasoft.conf && service apache2 reload
+```
+
+## Khulnasoft proxy in Plesk
+
+_Assuming the main goal is to make Khulnasoft running in HTTPS._
+
+1. Make a subdomain for Khulnasoft on which you enable and force HTTPS - You can use a free Let's Encrypt certificate
+2. Go to "Apache & nginx Settings", and in the following section, add:
+
+   ```text
+   RewriteEngine on
+   RewriteRule (.*) http://localhost:19999/$1 [P,L]
+   ```
+  
+3. Optional: If your server is remote, then replace "localhost" with your actual hostname or IP, it just works.  
+
+Repeat the operation for as many servers as you need.
+
+## Enable Basic Auth
+
+If you wish to add an authentication (user/password) to access your Khulnasoft, do these:
+
+Install the package `apache2-utils`. On Debian/Ubuntu run `sudo apt-get install apache2-utils`.
+
+Then, generate password for user `khulnasoft`, using `htpasswd -c /etc/apache2/.htpasswd khulnasoft`
+
+**Apache 2.2 Example:**\
+Modify the virtual host with these:
+
+```text
+    # replace the <Proxy *> section
+    <Proxy *>
+        Order deny,allow
+        Allow from all
+    </Proxy>
+
+    # add a <Location /khulnasoft/> section
+    <Location /khulnasoft/>
+        AuthType Basic
+        AuthName "Protected site"
+        AuthUserFile /etc/apache2/.htpasswd
+        Require valid-user
+        Order deny,allow
+        Allow from all
+    </Location>
+```
+
+Specify `Location /` if Khulnasoft is running on dedicated virtual host.
+
+**Apache 2.4 (dedicated virtual host) Example:**  
+
+```text
+<VirtualHost *:80>
+    RewriteEngine On
+    ProxyRequests Off
+    ProxyPreserveHost On
+    
+    ServerName khulnasoft.domain.tld
+
+    <Proxy *>
+        AllowOverride None
+        AuthType Basic
+        AuthName "Protected site"
+        AuthUserFile /etc/apache2/.htpasswd
+        Require valid-user
+    </Proxy>
+
+    ProxyPass "/" "http://localhost:19999/" connectiontimeout=5 timeout=30 keepalive=on
+    ProxyPassReverse "/" "http://localhost:19999/"
+
+    ErrorLog ${APACHE_LOG_DIR}/khulnasoft-error.log
+    CustomLog ${APACHE_LOG_DIR}/khulnasoft-access.log combined
+</VirtualHost>
+```
+
+Note: Changes are applied by reloading or restarting Apache.
+
+## Configuration of Content Security Policy
+
+If you want to enable CSP within your Apache, you should consider some special requirements for the headers. Modify your configuration like that:
+
+```text
+    Header always set Content-Security-Policy "default-src http: 'unsafe-inline' 'self' 'unsafe-eval'; script-src http: 'unsafe-inline' 'self' 'unsafe-eval'; style-src http: 'self' 'unsafe-inline'"
+```
+
+Note: Changes are applied by reloading or restarting Apache.
+
+## Using Khulnasoft with Apache's `mod_evasive` module
+
+The `mod_evasive` Apache module helps system administrators protect their web server from brute force and distributed
+denial-of-service attack (DDoS) attacks.
+
+Because Khulnasoft sends a request to the web server for every chart update, it's normal to create 20–30 requests per
+second, per client. If you're using `mod_evasive` on your Apache web server, this volume of requests will trigger the
+module's protection, and your dashboard will become unresponsive. You may even begin to see 403 errors.
+
+To mitigate this issue, you will need to change the value of the `DOSPageCount` option in your `mod_evasive.conf` file,
+which can typically be found at `/etc/httpd/conf.d/mod_evasive.conf` or `/etc/apache2/mods-enabled/evasive.conf`.
+
+The `DOSPageCount` option sets the limit of the number of requests from a single IP address for the same page per page
+interval, which is usually 1 second. The default value is `2` requests per second. Khulnasoft's typical usage will
+exceed that threshold, and `mod_evasive` will add your IP address to a blocklist.
+
+Our users have found success by setting `DOSPageCount` to `30`. Try this and raise the value if you continue to see 403
+errors while accessing the dashboard.
+
+```text
+DOSPageCount 30
+```
+
+Restart Apache with `sudo systemctl restart apache2`, or the appropriate method to restart services on your system, to
+reload its configuration with your new values.
+
+### Virtual host
+
+To adjust the `DOSPageCount` for a specific virtual host, open your virtual host config, which can be found at
+`/etc/httpd/conf/sites-available/my-domain.conf` or `/etc/apache2/sites-available/my-domain.conf` and add the
+following:
+
+```text
+<VirtualHost *:80>
+    ...
+    # Increase the DOSPageCount to prevent 403 errors and IP addresses being blocked.
+    <IfModule mod_evasive20.c>
+        DOSPageCount        30
+    </IfModule>
+</VirtualHost>
+```
+
+See issues [#2011](https://github.com/khulnasoft/khulnasoft/issues/2011) and
+[#7658](https://github.com/khulnasoft/khulnasoft/issues/7568) for more information.
+
+## Khulnasoft configuration
+
+You might edit `/etc/khulnasoft/khulnasoft.conf` to optimize your setup a bit. For applying these changes, you need to restart Khulnasoft.
+
+### Response compression
+
+If you plan to use Khulnasoft exclusively via apache, you can gain some performance by preventing double compression of its output (Khulnasoft compresses its response, apache re-compresses it) by editing `/etc/khulnasoft/khulnasoft.conf` and setting:
+
+```text
+[web]
+    enable gzip compression = no
+```
+
+Once you disable compression at Khulnasoft (and restart it), please verify you receive compressed responses from apache (it is important to receive compressed responses - the charts will be more snappy).
+
+### Limit direct access to Khulnasoft
+
+You would also need to instruct Khulnasoft to listen only on `localhost`, `127.0.0.1` or `::1`.
+
+```text
+[web]
+    bind to = localhost
+```
+
+or  
+
+```text
+[web]
+    bind to = 127.0.0.1
+```
+
+or  
+
+```text
+[web]
+    bind to = ::1
+```
+
+You can also use a unix domain socket. This will also provide a faster route between apache and Khulnasoft:
+
+```text
+[web]
+    bind to = unix:/tmp/khulnasoft.sock
+```
+
+Apache 2.4.24+ can’t read from `/tmp` so create your socket in `/var/run/khulnasoft`
+
+```text
+[web]
+    bind to = unix:/var/run/khulnasoft/khulnasoft.sock
+```
+
+At the apache side, prepend the second argument to `ProxyPass` with `unix:/tmp/khulnasoft.sock|`, like this:
+
+```text
+ProxyPass "/khulnasoft/" "unix:/tmp/khulnasoft.sock|http://localhost:19999/" connectiontimeout=5 timeout=30 keepalive=on
+```
+
+If your apache server is not on localhost, you can set:
+
+```text
+[web]
+    bind to = *
+    allow connections from = IP_OF_APACHE_SERVER
+```
+
+`allow connections from` accepts [Khulnasoft simple patterns](/docs/developer-and-contributor-corner/libkhulnasoft/simple-patterns) to match against the connection IP address.
+
+## Prevent the double access.log
+
+Apache logs accesses and Khulnasoft logs them too. You can prevent Khulnasoft from generating its access log, by setting this in `/etc/khulnasoft/khulnasoft.conf`:
+
+```text
+[logs]
+    access = off
+```
+
+## Troubleshooting mod_proxy
+
+Make sure the requests reach Khulnasoft, by examining `/var/log/khulnasoft/access.log`.
+
+1. if the requests don’t reach Khulnasoft, your apache doesn’t forward them.
+2. if the requests reach Khulnasoft but the URLs are wrong, you haven’t re-written them properly.

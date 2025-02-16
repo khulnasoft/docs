@@ -1,0 +1,70 @@
+{
+	"name": "docs-v-2",
+	"version": "2.0.0",
+	"private": true,
+	"scripts": {
+		"docusaurus": "docusaurus",
+		"start": "docusaurus start",
+		"build": "docusaurus build",
+		"swizzle": "docusaurus swizzle",
+		"deploy": "docusaurus deploy",
+		"clear": "docusaurus clear",
+		"serve": "docusaurus serve",
+		"write-translations": "docusaurus write-translations",
+		"write-heading-ids": "docusaurus write-heading-ids"
+	},
+	"dependencies": {
+		"@babel/core": "^7.0.0",
+		"@docusaurus/core": "^2.4.3",
+		"@docusaurus/mdx-loader": "^2.4.3",
+		"@docusaurus/plugin-google-gtag": "^2.4.3",
+		"@docusaurus/plugin-google-tag-manager": "^2.4.3",
+		"@docusaurus/preset-classic": "^2.4.3",
+		"@docusaurus/theme-common": "^2.4.3",
+		"@docusaurus/theme-mermaid": "^2.4.3",
+		"@mdx-js/react": "^1.6.21",
+		"@tailwindcss/typography": "^0.4.0",
+		"@types/react": "^18.0.21",
+		"axios": "^1.7.4",
+		"clsx": "^1.1.1",
+		"docusaurus-tailwindcss-loader": "file:plugins/docusaurus-tailwindcss-loader",
+		"dotenv": "^8.2.0",
+		"postcss": "^8.4.31",
+		"postcss-import": "^15.1.0",
+		"postcss-nesting": "^8.0.1",
+		"posthog-docusaurus": "^2.0.0",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2",
+		"react-icons": "^4.2.0",
+		"react-inlinesvg": "^2.2.2",
+		"react-loadable": "^5.5.0",
+		"react-player": "^2.10.0",
+		"swagger-ui": "^4.18.1",
+		"typescript": "^4.8.2",
+		"webpack": "^5.94.0"
+	},
+	"devDependencies": {
+		"autoprefixer": "^10.2.5",
+		"postcss-loader": "^5.2.0",
+		"postcss-preset-env": "^7.8.0",
+		"tailwindcss": "^2.1.2"
+	},
+	"resolutions": {
+		"trim": "^0.0.3",
+		"got": "^12.5.3",
+		"@sideway/formula": "^3.0.1",
+		"minimatch": "^3.0.5"
+	},
+	"browserslist": {
+		"production": [
+			">0.5%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	}
+}

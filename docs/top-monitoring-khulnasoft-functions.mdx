@@ -1,0 +1,49 @@
+---
+custom_edit_url: "https://github.com/khulnasoft/khulnasoft/edit/master/docs/top-monitoring-khulnasoft-functions.md"
+sidebar_label: "Top Monitoring (Khulnasoft Functions)"
+docs_status: "Published"
+docs_rel_path: "/"
+description: "Present the Khulnasoft Functions what these are and why they should be used."
+sidebar_position: "1100000"
+docs_link: "https://docs.khulnasoft.com/docs///top-monitoring-(khulnasoft-functions)"
+---
+
+# Top Monitoring (Khulnasoft Functions)
+
+Khulnasoft Agent collectors provide on-demand, runtime executable functions on the host where they are deployed. Available since v1.37.1.
+
+## What is a function?
+
+Beyond their primary roles of collecting metrics, collectors can execute specific routines when requested. These routines provide additional diagnostic information or trigger actions directly on the host node.
+
+## What functions are currently available?
+
+| Function           | Description                                                                                                                                                    | Alternative to CLI tools        | Require Cloud | plugin - module                                                                                                |
+|:-------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------|:--------------|:---------------------------------------------------------------------------------------------------------------|
+| Block-devices      | Disk I/O activity for all block devices, offering insights into both data transfer volume and operation performance.                                           | `iostat`                        | no            | [proc](https://github.com/khulnasoft/khulnasoft/tree/master/src/collectors/proc.plugin#readme)                       |
+| Containers-vms     | Insights into the resource utilization of containers and QEMU virtual machines: CPU usage, memory consumption, disk I/O, and network traffic.                  | `docker stats`, `systemd-cgtop` | no            | [cgroups](https://github.com/khulnasoft/khulnasoft/tree/master/src/collectors/cgroups.plugin#readme)                 |
+| Ipmi-sensors       | Readings and status of IPMI sensors.                                                                                                                           | `ipmi-sensors`                  | no            | [freeipmi](https://github.com/khulnasoft/khulnasoft/tree/master/src/collectors/freeipmi.plugin#readme)               |
+| Mount-points       | Disk usage for each mount point, including used and available space, both in terms of percentage and actual bytes, as well as used and available inode counts. | `df`                            | no            | [diskspace](https://github.com/khulnasoft/khulnasoft/tree/master/src/collectors/diskspace.plugin#readme)             |
+| Network-interfaces | Network traffic, packet drop rates, interface states, MTU, speed, and duplex mode for all network interfaces.                                                  | `bmon`, `bwm-ng`                | no            | [proc](https://github.com/khulnasoft/khulnasoft/tree/master/src/collectors/proc.plugin#readme)                       |
+| Processes          | Real-time information about the system's resource usage, including CPU utilization, memory consumption, and disk IO for every running process.                 | `top`, `htop`                   | yes           | [apps](https://github.com/khulnasoft/khulnasoft/blob/master/src/collectors/apps.plugin/README.md)                                                                  |
+| Systemd-journal    | Viewing, exploring and analyzing systemd journal logs.                                                                                                         | `journalctl`                    | yes           | [systemd-journal](https://github.com/khulnasoft/khulnasoft/tree/master/src/collectors/systemd-journal.plugin#readme) |
+| Systemd-list-units | Information about all systemd units, including their active state, description, whether or not they are enabled, and more.                                     | `systemctl list-units`          | yes           | [systemd-journal](https://github.com/khulnasoft/khulnasoft/tree/master/src/collectors/systemd-journal.plugin#readme) |
+| Systemd-services   | System resource utilization for all running systemd services: CPU, memory, and disk IO.                                                                        | `systemd-cgtop`                 | no            | [cgroups](https://github.com/khulnasoft/khulnasoft/tree/master/src/collectors/cgroups.plugin#readme)                 |
+| Streaming          | Comprehensive overview of all Khulnasoft children instances, offering detailed information about their status, replication completion time, and many more.        |                                 | yes           |                                                                                                                |
+| Khulnasoft-api-calls  | Real-time tracing of API calls made to the Khulnasoft Agent. It provides information on query, source, status, elapsed time, and more.                            |                                 | yes           |                                                                                                                |
+
+## How do functions work with streaming?
+
+When streaming is enabled, function definitions propagate from Child nodes to their Parent node. If this Parent node is connected to Khulnasoft Cloud, it can trigger function execution on any of its connected Child nodes.
+
+## Why are some functions only available on Khulnasoft Cloud?
+
+Some functions are exclusively available through Khulnasoft Cloud for security reasons. Since functions can execute node-level routines that may access sensitive information, we restrict their exposure through the Agent's API. This security concern is addressed by our [ACLK](/docs/khulnasoft-cloud/agent-cloud-link-aclk) protocol, which provides secure communication between Khulnasoft Agent and Khulnasoft Cloud.
+
+## Feedback
+
+If you have ideas or requests for other functions:
+
+- Participate in the relevant [GitHub discussion](https://github.com/khulnasoft/khulnasoft/discussions/14412)
+- Open a [feature request](https://github.com/khulnasoft/khulnasoft-cloud/issues/new?assignees=&labels=feature+request%2Cneeds+triage&template=FEAT_REQUEST.yml&title=%5BFeat%5D%3A+) on Khulnasoft Cloud repo
+- Join the Khulnasoft community on [Discord](https://discord.com/invite/2mEmfW735j) and let us know.

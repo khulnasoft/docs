@@ -1,0 +1,79 @@
+---
+custom_edit_url: "https://github.com/khulnasoft/khulnasoft/edit/master/docs/khulnasoft-agent/backup-and-restore-an-agent.md"
+sidebar_label: "Backup and restore an Agent"
+docs_status: "Published"
+docs_rel_path: "Khulnasoft Agent/Maintenance"
+description: "What actions you need to do to backup and Agent and restore it."
+sidebar_position: "404050"
+docs_link: "https://docs.khulnasoft.com/docs/khulnasoft-agent/maintenance/backup-and-restore-an-agent"
+---
+
+# Backing up a Khulnasoft Agent
+
+> **Note**
+>
+> Users are responsible for backing up, recovering, and ensuring their data's availability because Khulnasoft stores data locally on each system due to its decentralized architecture.
+
+## Introduction
+
+When planning a Khulnasoft Agent backup, it's essential to recognize the types of data that can be backed up, either individually or collectively:
+
+| Data type           | Description                                          | Location                                                        |
+|---------------------|------------------------------------------------------|-----------------------------------------------------------------|
+| Agent configuration | Files controlling configuration of the Khulnasoft Agent | [config directory](/docs/khulnasoft-agent/configuration) |
+| Metrics             | Database files                                       | /var/cache/khulnasoft                                              |
+| Identity            | Claim token, API key and some other files            | /var/lib/khulnasoft                                                |
+
+## Scenarios
+
+### Backing up to restore data in case of a node failure
+
+In this standard scenario, you’re backing up your Khulnasoft Agent in case of a node failure or data corruption so that the metrics and the configuration can be recovered. The purpose is not to backup/restore the application itself.
+
+1. Verify that the directory paths in the table above contain the information you expect.
+
+   > **Note**  
+   > The specific paths may vary depending on installation method, Operating System, and whether it is a Docker/Kubernetes deployment.
+
+2. It is recommended that you [stop the Khulnasoft Agent](/docs/khulnasoft-agent/maintenance/service-control) when backing up the Metrics/database files.  
+   Backing up the Agent configuration and Identity folders is straightforward as they shouldn’t be changing very frequently.
+
+3. Using a backup tool such as `tar` you will need to run the backup as _root_ or as the _khulnasoft_ user to access all the files in the directories.
+
+   ```bash
+   sudo tar -cvpzf khulnasoft_backup.tar.gz /etc/khulnasoft/ /var/cache/khulnasoft /var/lib/khulnasoft
+   ```
+
+   Stopping the Khulnasoft Agent is typically necessary to back up the database files of the Khulnasoft Agent.
+
+If you want to minimize the gap in metrics caused by stopping the Khulnasoft Agent, consider implementing a backup job or script that follows this sequence:
+
+- Backup the Agent configuration Identity directories
+- Stop the Khulnasoft service
+- Backup up the database files
+- Restart the Khulnasoft Agent.
+
+### Restoring Khulnasoft
+
+1. Ensure that the Khulnasoft Agent is installed and is [stopped](/docs/khulnasoft-agent/maintenance/service-control)
+
+   If you plan to deploy the Agent and restore a backup on top of it, then you might find it helpful to use the [`--dont-start-it`](/docs/khulnasoft-agent/installation/linux#other-options) option upon installation.
+
+   ```bash
+   wget -O /tmp/khulnasoft-kickstart.sh https://get.khulnasoft.com/kickstart.sh && sh /tmp/khulnasoft-kickstart.sh --dont-start-it
+   ```
+
+   > **Note**
+   > If you are going to restore the database files, then you should first ensure that the Metrics directory is empty.
+   >
+   > ```bash
+    > sudo rm -Rf /var/cache/khulnasoft
+    > ```
+
+2. Restore the backup from the archive
+
+    ```bash
+    sudo tar -xvpzf /path/to/khulnasoft_backup.tar.gz -C /
+    ```
+
+3. [Start the Khulnasoft Agent](/docs/khulnasoft-agent/maintenance/service-control)

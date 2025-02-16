@@ -1,0 +1,45 @@
+---
+custom_edit_url: "https://github.com/khulnasoft/khulnasoft/edit/master/src/aclk/README.md"
+sidebar_label: "Agent-Cloud Link (ACLK)"
+docs_status: "Published"
+docs_rel_path: "Khulnasoft Cloud"
+description: "The Agent-Cloud link (ACLK) is the mechanism responsible for connecting a Khulnasoft agent to Khulnasoft Cloud."
+sidebar_position: "508010"
+docs_link: "https://docs.khulnasoft.com/docs/khulnasoft-cloud/agent-cloud-link-(aclk)"
+---
+
+# Agent-Cloud link (ACLK)
+
+The Agent-Cloud Link (ACLK) provides secure communication between your Khulnasoft Agents and Cloud. This connection:
+
+- Uses outgoing secure WebSocket (WSS) on port `443`
+- Activates only after you [connect a node](/docs/khulnasoft-cloud/connect-agent-to-cloud) to your Space
+- Ensures encrypted, safe data transmission
+
+For ACLK to function properly, your Agents need outbound access to Khulnasoft Cloud services.
+
+| Allowlisting Method | Required Access                                                            |
+|---------------------|----------------------------------------------------------------------------|
+| Domain              | • `app.khulnasoft.com`<br/>• `api.khulnasoft.com`<br/>• `mqtt.khulnasoft.com` |
+
+> **Important**
+>
+> IP addresses can change without notice! Always **prefer domain allowlisting**. If you must use IP addresses, be aware that they vary based on your geographic location due to CDN-edge servers. You'll need to regularly verify the IP addresses specific to your region.
+
+## Data privacy
+
+Your monitoring data belongs to you. Here's how we ensure this:
+
+- **Zero Metric Storage**: We do not store any metrics or logs in Khulnasoft Cloud.
+- **Local Data Control**: All your monitoring data stays within your infrastructure.
+- **Minimal Metadata**: We store only essential metadata needed for coordination and access control.
+
+For complete transparency:
+
+- Read our detailed [Privacy Policy](https://khulnasoft.com/privacy/)
+- Docs more about [stored metadata](/docs/khulnasoft-cloud#stored-metadata)
+
+## Enable and configure the ACLK
+
+The Agent-Cloud Link is enabled automatically—no configuration needed.
+If your Agent requires a proxy to access the internet, you'll need to [configure proxy settings](/docs/khulnasoft-cloud/connect-agent-to-cloud#automatically-via-a-provisioning-system-or-the-command-line).

@@ -1,0 +1,198 @@
+---
+custom_edit_url: "https://github.com/khulnasoft/khulnasoft/edit/master/src/daemon/README.md"
+sidebar_label: "Daemon"
+docs_status: "Published"
+docs_rel_path: "Khulnasoft Agent"
+sidebar_position: "410000"
+docs_link: "https://docs.khulnasoft.com/docs/khulnasoft-agent/daemon"
+---
+
+# Daemon
+
+The Khulnasoft Daemon, often referred to as the Khulnasoft Agent, controls the entire operation of the monitoring system. This document provides an overview of command-line options, debugging, and troubleshooting.
+
+## Command-Line Options
+
+While Khulnasoft typically runs with default settings, you can override configurations using command-line options. For a complete list of options and detailed descriptions, run:
+
+```sh
+khulnasoft -h
+```
+
+**Common Options**:
+
+| Option        | Description                       | Default                     |
+|---------------|-----------------------------------|-----------------------------|
+| `-c filename` | Specify configuration file        | `/etc/khulnasoft/khulnasoft.conf` |
+| `-D`          | Run in foreground (do not fork)   | Run in background           |
+| `-d`          | Run in background (fork)          | Run in background           |
+| `-P filename` | Save PID to file                  | No PID file                 |
+| `-i IP`       | Set listening IP address          | All IPv4 and IPv6 addresses |
+| `-p port`     | Set API/Web port                  | `19999`                     |
+| `-s path`     | Set prefix for `/proc` and `/sys` | No prefix                   |
+| `-t seconds`  | Set internal clock interval       | `1`                         |
+| `-u username` | Set running user                  | `khulnasoft`                   |
+| `-v`, `-V`    | Display version and exit          | -                           |
+| `-W options`  | Advanced options (see below)      | -                           |
+
+## Logging
+
+For details about Khulnasoft's logging system and configuration, see [Khulnasoft Logging](/docs/developer-and-contributor-corner/libkhulnasoft/log).
+
+## Process Scheduling Policy (Unix only)
+
+Khulnasoft uses the `batch` scheduling policy by default, which helps eliminate gaps in charts on busy systems while maintaining low system impact.
+
+
+<details>
+<summary>Change (Systemd)</summary>
+
+When Khulnasoft runs under systemd as the `khulnasoft` user, it can’t directly modify its scheduling policy and priority. Instead, configure these settings through systemd.
+
+1. Use the following command to edit the systemd service (requires root privileges):
+
+   ```bash
+   systemctl edit khulnasoft
+   ```
+
+2. Below are the available scheduling options. Uncomment and adjust the values according to your needs:
+
+   ```bash
+   [Service]
+   ## CPU Scheduling Policy
+   ## Options: other (system default) | batch | idle | fifo | rr
+   #CPUSchedulingPolicy=other
+
+   ## CPU Scheduling Priority (for fifo and rr policies)
+   ## Range: 1 (lowest) to 99 (highest)
+   ## Note: Khulnasoft can only reduce this value via khulnasoft.conf
+   #CPUSchedulingPriority=1
+
+   ## Process Nice Level (for other and batch policies)
+   ## Range: -20 (highest) to 19 (lowest)
+   ## Note: Khulnasoft can only increase this value via khulnasoft.conf
+   #Nice=0
+   ```
+
+3. Configure Khulnasoft to preserve systemd settings by editing `khulnasoft.conf`:
+      ```text
+         [global]
+            process scheduling policy = keep
+      ```
+
+4. [Restart](/docs/khulnasoft-agent/maintenance/service-control) khulnasoft service.
+
+</details>
+
+
+<details>
+<summary>Change (Non-Systemd)</summary>
+
+To modify the scheduling policy, [edit](/docs/khulnasoft-agent/configuration#edit-a-configuration-file-using-edit-config) `khulnasoft.conf`:
+
+```text
+[global]
+  process scheduling policy = idle
+```
+
+**Available Policies**:
+
+| Policy         | Description                                                                                                               |
+|----------------|---------------------------------------------------------------------------------------------------------------------------|
+| `batch`        | Similar to `other` but treats the thread as CPU-intensive, applying a mild scheduling penalty. This is Khulnasoft's default. |
+| `idle`         | Uses CPU only when available (lower than nice 19). Under extreme system load, may cause 1-2 second gaps in charts.        |
+| `other`/`nice` | Linux's default process policy. Uses dynamic priorities based on the process's `nice` level.                              |
+| `fifo`         | Requires static priorities above 0. Immediately preempts `other`, `batch`, or `idle` threads. No time slicing.            |
+| `rr`           | Enhanced `fifo` with maximum time quantum for each thread.                                                                |
+| `keep`/`none`  | Maintains existing scheduling policy and priority settings.                                                               |
+
+For additional details about process scheduling, see [man sched](https://man7.org/linux/man-pages/man7/sched.7.html).
+
+**FIFO and RR Priority**:
+
+When using `fifo` or `rr` policies, you can set the process priority in `khulnasoft.conf`:
+
+```text
+[global]
+    process scheduling priority = 0
+```
+
+Priority values range from 0 to 99, with higher values indicating higher process importance.
+
+**Nice Level**
+
+For `other`, `nice`, or `batch` policies, you can adjust the nice level:
+
+```text
+[global]
+    process nice level = 19
+```
+
+The nice level ranges from -20 (the highest priority) to 19 (the lowest priority). A higher value means the process is "nicer" to other processes by using fewer CPU resources.
+
+</details>
+
+## Debugging
+
+When Khulnasoft is compiled with debugging enabled:
+
+- **Performance Impact**: Compiler optimizations are disabled, which may result in slightly reduced performance.
+- **Debug Logging**: Disabled by default. To enable logging for specific components:
+    - Open `khulnasoft.conf`.
+    - Set the `debug flags` option to a hex value that corresponds to the components you want to trace.
+    - Debug flag options are defined in [log.h](https://raw.githubusercontent.com/khulnasoft/khulnasoft/master/src/libkhulnasoft/log/log.h) as `D_*` values. Use `0xffffffffffffffff` to enable all debug flags.
+
+> **Important**
+>
+> Remember to disable debug logging (`debug flags = 0`) after you finish troubleshooting. Debug logs can grow rapidly and consume significant disk space.
+
+### Compiling Khulnasoft with debugging
+
+To compile Khulnasoft with debugging capabilities:
+
+```sh
+# Navigate to Khulnasoft source directory
+cd /usr/src/khulnasoft.git
+
+# Install with debugging enabled
+CFLAGS="-O1 -ggdb -DKHULNASOFT_INTERNAL_CHECKS=1" ./khulnasoft-installer.sh
+```
+
+After installation, use the `debug flags` setting in your configuration to specify which components to trace.
+
+This compilation method includes debugging information in the binary and enables internal checks. **This is recommended only for development or troubleshooting purposes**.
+
+### Debugging Crashes
+
+While Khulnasoft is designed to be highly stable, if you encounter a crash, providing stack traces greatly helps in identifying the root cause.
+
+To generate useful debugging information, ensure you have Khulnasoft [compiled with debugging enabled](#debugging).
+
+#### Method 1: Analyzing a Core Dump
+
+If you have a core dump from the crash, run:
+
+```sh
+gdb $(which khulnasoft) /path/to/core/dump
+```
+
+#### Method 2: Using Valgrind for Reproducible Crashes
+
+If you can reproduce the crash consistently:
+
+1. Install the `valgrind` package
+2. Run Khulnasoft under Valgrind:
+
+   ```sh
+   valgrind $(which khulnasoft) -D
+   ```
+
+Khulnasoft will run significantly slower under Valgrind. When the crash occurs, Valgrind will output the stack trace to your console.
+
+#### Reporting the Issue
+
+For either method:
+
+- Create a [new GitHub issue](https://github.com/khulnasoft/khulnasoft/issues/new/choose).
+- Include the complete output from gdb or Valgrind.
+- Add any relevant details about the circumstances of the crash.

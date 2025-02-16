@@ -1,0 +1,47 @@
+---
+custom_edit_url: "https://github.com/khulnasoft/khulnasoft/edit/master/docs/dashboards-and-charts/README.md"
+sidebar_label: "Dashboards and Charts"
+docs_status: "Published"
+docs_rel_path: "Dashboards and Charts"
+sidebar_position: "1400000"
+docs_link: "https://docs.khulnasoft.com/docs/dashboards-and-charts"
+---
+
+# Dashboards and Charts
+
+This guide covers how to access both Agent and Cloud dashboards, along with links to explore specific sections in more detail.
+
+When you access the Khulnasoft dashboard through the Cloud, you'll always have the latest version available.
+
+By default, the Agent dashboard shows the latest version (matching Khulnasoft Cloud). However, there are a few exceptions:
+
+- Without internet access, the Agent can't download the newest dashboards. In this case, it will automatically use the bundled version.
+- Users have defined, e.g., through URL bookmark that they want to see the previous version of the dashboard (accessible `http://NODE:19999/v1`, replacing `NODE` with the IP address or hostname of your Agent).
+
+## Main sections
+
+The Khulnasoft dashboard consists of the following main sections:
+
+- [Home tab](/docs/dashboards-and-charts/home-tab)
+- [Nodes tab](/docs/dashboards-and-charts/nodes-tab)
+- [Khulnasoft charts](/docs/dashboards-and-charts/khulnasoft-charts)
+- [Metrics tab and single node tabs](/docs/dashboards-and-charts/metrics-tab-and-single-node-tabs)
+- [Top tab](/docs/dashboards-and-charts/top-tab)
+- [Logs tab](/docs/dashboards-and-charts/logs-tab)
+- [Dashboards tab](/docs/dashboards-and-charts/dashboards-tab)
+- [Alerts tab](/docs/dashboards-and-charts/alerts-tab)
+- [Events tab](/docs/dashboards-and-charts/events-feed)
+
+> **Note**
+>
+> Some dashboard sections may require the user to be signed in and have the Agent connected to Khulnasoft Cloud for their full functionality when accessed through the Agent. Examples include saving visualization settings on charts or custom dashboards, connecting a node to Khulnasoft Cloud, or executing functions on an Agent.
+
+## How to access the dashboards?
+
+### Khulnasoft Cloud
+
+You can access the dashboard at <https://app.khulnasoft.com/> and [sign-in with an account or sign-up](/docs/khulnasoft-cloud/authentication-&-authorization) if you don't have an account yet.
+
+### Khulnasoft Agent
+
+To view your Khulnasoft dashboard, open a web browser and enter the address `http://NODE:19999`  - replace `NODE` with your Agent's IP address or hostname. If the Agent is on the same machine, use `http://localhost:19999`.

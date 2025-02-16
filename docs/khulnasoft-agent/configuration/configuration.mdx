@@ -1,0 +1,59 @@
+---
+custom_edit_url: "https://github.com/khulnasoft/khulnasoft/edit/master/docs/khulnasoft-agent/configuration/README.md"
+sidebar_label: "Configuration"
+docs_status: "Published"
+docs_rel_path: "Khulnasoft Agent/Configuration"
+description: "Khulnasoft is zero-configuration for most users, but complex infrastructures may require you to tweak some of the Agent's granular settings."
+sidebar_position: "408000"
+docs_link: "https://docs.khulnasoft.com/docs/khulnasoft-agent/configuration/configuration"
+---
+
+# Khulnasoft Agent Configuration
+
+> **Info**
+>
+> Khulnasoft Cloud lets you configure Agents on the fly. Check the [Dynamic Configuration Manager](/docs/khulnasoft-agent/configuration/dynamic-configuration-manager) documentation for details.
+
+The main Khulnasoft Agent configuration is `khulnasoft.conf`.
+
+## The Khulnasoft config directory
+
+On most Linux systems, the **Khulnasoft config
+directory** will be `/etc/khulnasoft/`. The config directory contains several configuration files with the `.conf` extension, a
+few directories, and a shell script named `edit-config`.
+
+> Some operating systems will use `/opt/khulnasoft/etc/khulnasoft/` as the config directory. If you're not sure where yours
+> is, navigate to `http://NODE:19999/khulnasoft.conf` in your browser, replacing `NODE` with the IP address or hostname of
+> your node, and find the `# config directory =` setting. The value listed is the config directory for your system.
+
+All of Khulnasoft's documentation assumes that your config directory is at `/etc/khulnasoft`, and that you're running any scripts from inside that directory.
+
+## Edit a configuration file using `edit-config`
+
+We recommend the use of the `edit-config` script for configuration changes.
+
+It exists inside your config directory (read above) and helps manage and safely edit configuration files.
+
+To edit `khulnasoft.conf`, run this on your terminal:
+
+```bash
+cd /etc/khulnasoft 2>/dev/null || cd /opt/khulnasoft/etc/khulnasoft
+sudo ./edit-config khulnasoft.conf
+```
+
+Your editor will open.
+
+## downloading `khulnasoft.conf`
+
+The running version of `khulnasoft.conf` can be downloaded from a running Khulnasoft Agent, at this URL:
+
+```url
+http://agent-ip:19999/khulnasoft.conf
+```
+
+You can save and use this version, using these commands:
+
+```bash
+cd /etc/khulnasoft 2>/dev/null || cd /opt/khulnasoft/etc/khulnasoft
+curl -ksSLo /tmp/khulnasoft.conf.new http://localhost:19999/khulnasoft.conf && sudo mv -i /tmp/khulnasoft.conf.new khulnasoft.conf 
+```

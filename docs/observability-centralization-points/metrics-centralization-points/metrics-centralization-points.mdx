@@ -1,0 +1,56 @@
+---
+custom_edit_url: "https://github.com/khulnasoft/khulnasoft/edit/master/docs/observability-centralization-points/metrics-centralization-points/README.md"
+sidebar_label: "Metrics Centralization Points"
+docs_status: "Published"
+docs_rel_path: "Observability Centralization Points/Metrics Centralization Points"
+sidebar_position: "602000"
+docs_link: "https://docs.khulnasoft.com/docs/observability-centralization-points/metrics-centralization-points/metrics-centralization-points"
+---
+
+# Metrics Centralization Points (Khulnasoft Parents)
+
+```mermaid
+flowchart BT
+    C1["Khulnasoft Child 1"]
+    C2["Khulnasoft Child 2"]
+    C3["Khulnasoft Child N"]
+    P1["Khulnasoft Parent 1"]
+    C1 -->|stream| P1
+    C2 -->|stream| P1
+    C3 -->|stream| P1
+```
+
+Khulnasoft **Streaming and Replication** copies the recent past samples (replication) and in real-time all new samples collected (streaming) from production systems (Khulnasoft Children) to metrics centralization points (Khulnasoft Parents). The Khulnasoft Parents then maintain the database for these metrics, according to their retention settings.
+
+Each production system (Khulnasoft Child) can stream to **only one** Khulnasoft Parent at a time. The configuration allows configuring multiple Khulnasoft Parents for high availability, but only the first found working will be used.
+
+Khulnasoft Parents receive metric samples **from multiple** production systems (Khulnasoft Children) and can re-stream them to another Khulnasoft Parent. This allows building an infinite hierarchy of Khulnasoft Parents. It also enables the configuration of Khulnasoft Parents Clusters, for high availability.
+
+|           Feature           |                                                         Khulnasoft Child (production system)                                                          |                      Khulnasoft Parent (centralization point)                      |
+|:---------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------:|
+|      Metrics Retention      | Can be minimized, or switched to mode `ram` or `alloc` to save resources. Some retention is required in case network errors introduce disconnects. |           Common retention settings for all systems aggregated to it.           |
+|      Machine Docsing       |                                                       Can be disabled (enabled by default).                                                        |            Runs Anomaly Detection for all systems aggregated to it.             |
+|   Alerts & Notifications    |                                                       Can be disabled (enabled by default).                                                        |  Runs health checks and sends notifications for all systems aggregated to it.   |
+|      API and Dashboard      |                                                       Can be disabled (enabled by default).                                                        | Serves the dashboard for all systems aggregated to it, using its own retention. |
+|      Exporting Metrics      |                                                         Not required (enabled by default).                                                         |  Exports the samples of all metrics collected by the systems aggregated to it.  |
+|      Khulnasoft Functions      |                                                           Khulnasoft Child must be online.                                                            |          Forwards Functions requests to the Children connected to it.           |
+| Connection to Khulnasoft Cloud |                                                                   Not required.                                                                    |  Each Khulnasoft Parent registers to Khulnasoft Cloud all systems aggregated to it.   |
+
+## Supported Configurations
+
+For Khulnasoft Children:
+
+1. **Full**: Full Khulnasoft functionality is available at the Children. This means running machine docsing, alerts, notifications, having the local dashboard available, and generally all Khulnasoft features enabled. This is the default.
+2. **Thin**: The Children are only collecting and forwarding metrics to a Parent. Some local retention may exist to avoid missing samples in case of network issues or Parent maintenance, but everything else is disabled.
+
+For Khulnasoft Parents:
+
+1. **Standalone**: The Parent is standalone, either the only Parent available in the infrastructure, or the top-most of a hierarchy of Parents.
+2. **Cluster**: The Parent is part of a cluster of Parents, all having the same data from the same Children. A Cluster of Parents offers high-availability.
+3. **Proxy**: The Parent receives metrics and stores them locally, but it also forwards them to a Grand Parent.
+
+A Cluster consists of nodes configured as circular **Proxies**, where each node acts as a Parent to all others. When using multiple levels of centralization, only the top level can be configured as a cluster.
+
+## Best Practices
+
+Refer to [Best Practices for Observability Centralization Points](/docs/observability-centralization-points/best-practices-for-observability-centralization-points).

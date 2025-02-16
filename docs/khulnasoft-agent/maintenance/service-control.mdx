@@ -1,0 +1,65 @@
+---
+custom_edit_url: "https://github.com/khulnasoft/khulnasoft/edit/master/docs/khulnasoft-agent/start-stop-restart.md"
+sidebar_label: "Service Control"
+docs_status: "Published"
+docs_rel_path: "Khulnasoft Agent/Maintenance"
+description: "Manage the Khulnasoft Agent daemon, load configuration changes, and troubleshoot stuck processes on systemd and non-systemd nodes."
+sidebar_position: "404010"
+docs_link: "https://docs.khulnasoft.com/docs/khulnasoft-agent/maintenance/service-control"
+---
+
+# Service Control
+
+The Khulnasoft Agent automatically starts at boot after installation.
+
+> In most cases, you need to **restart the Khulnasoft service** to apply changes to configuration files. Health configuration files, which define alerts, are an exception. They can be [reloaded](#reload-health) **without restarting**.
+>
+> Restarting the Khulnasoft Agent will cause temporary gaps in your collected metrics. This occurs while the khulnasoft process reinitializes its data collectors and database engine.
+
+## UNIX
+
+### Using `systemctl`, `service`, or `init.d`
+
+| Action  | Systemd                         | Non-systemd                    |
+|---------|---------------------------------|--------------------------------|
+| start   | `sudo systemctl start khulnasoft`  | `sudo service khulnasoft start`   |
+| stop    | `sudo systemctl stop khulnasoft`   | `sudo service khulnasoft stop`    |
+| restart | `sudo systemctl restart khulnasoft`| `sudo service khulnasoft restart` |
+
+### Using `khulnasoft`
+
+Use the `khulnasoft` command, typically located at `/usr/sbin/khulnasoft`, to start the Khulnasoft daemon.
+
+```bash
+sudo khulnasoft
+```
+
+If you start the daemon this way, close it with `sudo killall khulnasoft`.
+
+### Using `khulnasoftcli`
+
+The Khulnasoft Agent also comes with a [CLI tool](/docs/khulnasoft-agent/agent-cli) capable of performing shutdowns. Start the Agent back up using your preferred method listed above.
+
+```bash
+sudo khulnasoftcli shutdown-agent
+```
+
+### Reload health
+
+No need to restart the Khulnasoft Agent after modifying health configuration files (alerts). Use `khulnasoftcli` to avoid metric collection gaps.
+
+```bash
+sudo khulnasoftcli reload-health
+```
+
+## Windows
+
+> **Note**
+>
+> You will need to run PowerShell as administrator.
+
+- To **start** Khulnasoft, run `Start-Service Khulnasoft`.
+- To **stop** Khulnasoft, run `Stop-Service Khulnasoft`.
+- To **restart** Khulnasoft, run `Restart-Service Khulnasoft`.
+
+If you prefer to manage the Agent through the GUI, you can start-stop and restart the `Khulnasoft` service from the "Services" tab of Task Manager.
