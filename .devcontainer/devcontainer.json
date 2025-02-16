@@ -1,0 +1,7 @@
+{
+    "image": "node:16", 
+    "extensions":[
+		"DavidAnson.vscode-markdownlint"
+	],
+    "forwardPorts": [3000]
+}
